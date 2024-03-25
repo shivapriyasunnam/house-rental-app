@@ -19,9 +19,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.house_rental_app.data.profileviewmodel
 import com.example.house_rental_app.models.Profile
 import com.example.house_rental_app.navigation.ROUTE_UPDATE_PROFILE
@@ -106,4 +108,11 @@ fun ProfileItem(name:String, housenumber:String, contact:String, id:String,
         }
     }
 
+}
+
+
+@Preview
+@Composable
+fun Preview(){
+    Viewprofile(rememberNavController())
 }

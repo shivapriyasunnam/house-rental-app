@@ -51,13 +51,13 @@ fun HomeScreen(navController: NavHostController) {
             )
         Button(
             onClick = {
-                navController.navigate(ROUTE_BOOKING)
+                navController.navigate(ROUTE_LOGIN)
             },
             colors = ButtonDefaults.buttonColors(Color.Black),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 50.dp)
         )
         {
-            Text(text = "Book with us a beautiful home from any high-end estates ")
+            Text(text = "Looking for a Home?")
 
         }
         Button(
@@ -65,20 +65,20 @@ fun HomeScreen(navController: NavHostController) {
                 navController.navigate(ROUTE_LOGIN)
             },
             colors = ButtonDefaults.buttonColors(Color.Black),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 50.dp)
         )
         {
-            Text(text = "Landlords Login Page")
+            Text(text = "Landlord's Login/Signup")
 
         }
-        Spacer(modifier = Modifier.height(30.dp))
+//        Spacer(modifier = Modifier.height(30.dp))
         Text(
-            text = "Want to rent your dream home?Rentishwa has got you covered",
-            modifier = Modifier.padding(20.dp),
-            fontSize = 30.sp,
+            text = "Rent a house of your dreams or find the perfect tenant, join our app now!",
+            modifier = Modifier.padding(20.dp).align(Alignment.CenterHorizontally),
+            fontSize = 22.sp,
             fontWeight = FontWeight.Bold, color = Color.Black,
             fontFamily = FontFamily.Monospace,
-
+            textAlign = TextAlign.Center
             )
 
         Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
@@ -102,7 +102,7 @@ fun HomeScreen(navController: NavHostController) {
                             )
                         }
                         Text(
-                            text = "Lower Kabete Rentals",
+                            text = "20 Highland Dr",
                             textAlign = TextAlign.Center,
                             fontSize = 20.sp,
                             fontWeight = FontWeight.SemiBold,
@@ -132,7 +132,7 @@ fun HomeScreen(navController: NavHostController) {
                             )
                         }
                         Text(
-                            text = "Antigonish Rentals",
+                            text = "163 Hawthorne St",
                             textAlign = TextAlign.Center,
                             fontSize = 20.sp,
                             fontWeight = FontWeight.SemiBold,
@@ -165,7 +165,7 @@ fun HomeScreen(navController: NavHostController) {
                             )
                         }
                         Text(
-                            text = "Ruiru Rentals",
+                            text = "3 Church St",
                             textAlign = TextAlign.Center,
                             fontSize = 20.sp,
                             fontWeight = FontWeight.SemiBold,
@@ -196,7 +196,7 @@ fun HomeScreen(navController: NavHostController) {
                             )
                         }
                         Text(
-                            text = "Westlands Rentals",
+                            text = "40 Old Highway Rd",
                             textAlign = TextAlign.Center,
                             fontSize = 20.sp,
                             fontWeight = FontWeight.SemiBold,
@@ -228,7 +228,7 @@ fun HomeScreen(navController: NavHostController) {
                             )
                         }
                         Text(
-                            text = "Karen Rentals",
+                            text = "45 University Av",
                             textAlign = TextAlign.Center,
                             fontSize = 20.sp,
                             fontWeight = FontWeight.SemiBold,
@@ -259,7 +259,7 @@ fun HomeScreen(navController: NavHostController) {
                             )
                         }
                         Text(
-                            text = "Lower Kabete Rentals",
+                            text = "221 Scarboro Dr",
                             textAlign = TextAlign.Center,
                             fontSize = 20.sp,
                             fontWeight = FontWeight.SemiBold,
@@ -291,7 +291,7 @@ fun HomeScreen(navController: NavHostController) {
                             )
                         }
                         Text(
-                            text = "Starehe Rentals",
+                            text = "33 St Ninians St",
                             textAlign = TextAlign.Center,
                             fontSize = 20.sp,
                             fontWeight = FontWeight.SemiBold,
@@ -322,7 +322,7 @@ fun HomeScreen(navController: NavHostController) {
                             )
                         }
                         Text(
-                            text = "Fully furnished",
+                            text = "72 Arbor Dr",
                             textAlign = TextAlign.Center,
                             fontSize = 20.sp,
                             fontWeight = FontWeight.SemiBold,
@@ -354,7 +354,7 @@ fun HomeScreen(navController: NavHostController) {
                             )
                         }
                         Text(
-                            text = "Great Interior Design",
+                            text = "93 Kirk St",
                             textAlign = TextAlign.Center,
                             fontSize = 20.sp,
                             fontWeight = FontWeight.SemiBold,
@@ -385,7 +385,7 @@ fun HomeScreen(navController: NavHostController) {
                             )
                         }
                         Text(
-                            text = "Efficient Lighting",
+                            text = "2 Mackinon St",
                             textAlign = TextAlign.Center,
                             fontSize = 20.sp,
                             fontWeight = FontWeight.SemiBold,

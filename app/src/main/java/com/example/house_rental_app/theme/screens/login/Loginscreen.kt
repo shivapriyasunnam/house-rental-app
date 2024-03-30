@@ -50,6 +50,7 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.house_rental_app.data.AuthViewModel
 import com.example.house_rental_app.navigation.ROUTE_REGISTER
 import com.example.house_rental_app.R
+import com.example.house_rental_app.navigation.ROUTE_ALL_LISTINGS
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -134,8 +135,10 @@ fun Loginscreen(navController: NavHostController) {
 
             Button(
                 onClick = {
-                    val yyy = AuthViewModel(navController, context)
-                    yyy.login(email.text.trim(), pass.text.trim())
+                    //**********Do Database Authentication**********
+//                    val yyy = AuthViewModel(navController, context)
+//                    yyy.login(email.text.trim(), pass.text.trim())
+                    navController.navigate(ROUTE_ALL_LISTINGS)
                 },
                 colors = ButtonDefaults.buttonColors(Color.Black),
                 modifier = Modifier

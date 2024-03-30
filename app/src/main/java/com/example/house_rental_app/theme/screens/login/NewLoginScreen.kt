@@ -37,8 +37,10 @@ import androidx.navigation.compose.rememberNavController
 import com.example.house_rental_app.R
 import com.example.house_rental_app.data.NewAuthViewModel
 import com.example.house_rental_app.navigation.ROUTE_HOME
+import com.example.house_rental_app.navigation.ROUTE_MY_LISTINGS
 import com.example.house_rental_app.navigation.ROUTE_NEWREGISTER
 import com.example.house_rental_app.navigation.ROUTE_REGISTER
+//import com.example.house_rental_app.navigation.ROUTE_USER_HOME
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -90,7 +92,7 @@ fun NewLoginScreen(navController: NavHostController, viewModel: NewAuthViewModel
                 onClick = {
                     viewModel.loginUser(email.value, password.value) { user ->
                         if (user != null) {
-                            navController.navigate(ROUTE_HOME)
+                            navController.navigate(ROUTE_MY_LISTINGS)
                         } else {
                             Toast.makeText(
                                 context,

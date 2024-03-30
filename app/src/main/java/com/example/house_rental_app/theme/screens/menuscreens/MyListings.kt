@@ -37,39 +37,11 @@ import com.example.house_rental_app.navigation.ROUTE_DETAILED_PROPERTY
 import com.example.house_rental_app.navigation.ROUTE_MY_LISTINGS
 
 @Composable
-fun MyListings(navController: NavHostController) {
+fun MyListings(navController: NavController) {
 
     Column {
         // Menu bar
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-
-            IconButton(onClick = { navController.navigate(ROUTE_ALL_LISTINGS) }) {
-                Icon(Icons.Default.List, contentDescription = "Listings")
-            }
-
-
-            // View all listings icon
-            IconButton(onClick = {  navController.navigate(ROUTE_MY_LISTINGS) }) {
-                Icon(Icons.Default.Search, contentDescription = "My Listing")
-            }
-
-            // Profile icon
-            IconButton(onClick = { /* Handle profile icon click */ }) {
-                Icon(Icons.Default.Person, contentDescription = "Profile")
-            }
-
-            // Add listing icon
-            IconButton(onClick = { /* Handle add listing icon click */ }) {
-                Icon(Icons.Default.Add, contentDescription = "Add Listing")
-            }
-
-        }
+        MenuBar(navController = navController)
 
         // Spacer to add some space between menu bar and list
         Spacer(modifier = Modifier.height(1.dp))
@@ -153,6 +125,9 @@ fun MyListings(navController: NavHostController) {
         val image_list = listOf(
             PropertyDetails(address = "123 Main St", leaseAvailability = "April 1, 2024", imageId = R.drawable.img_2, bedrooms = 2, bathrooms = 4),
             PropertyDetails(address = "456 Elm St", leaseAvailability = "May 1, 2024", imageId = R.drawable.img_2, bedrooms = 1, bathrooms = 4),
+            PropertyDetails(address = "789 Main St", leaseAvailability = "April 1, 2024", imageId = R.drawable.img_2, bedrooms = 2, bathrooms = 4),
+            PropertyDetails(address = "101 Elm St", leaseAvailability = "May 1, 2024", imageId = R.drawable.img_2, bedrooms = 1, bathrooms = 4),
+            PropertyDetails(address = "112 Elm St", leaseAvailability = "May 1, 2024", imageId = R.drawable.img_2, bedrooms = 1, bathrooms = 4),
 
         )
 

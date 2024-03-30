@@ -34,48 +34,21 @@ import com.example.house_rental_app.R
 import com.example.house_rental_app.data.PropertyDetails
 import com.example.house_rental_app.navigation.ROUTE_ALL_LISTINGS
 import com.example.house_rental_app.navigation.ROUTE_DETAILED_PROPERTY
-import com.example.house_rental_app.navigation.ROUTE_MY_LISTINGS
+import com.example.house_rental_app.navigation.ROUTE_LOGIN
 
 @Composable
-fun AllListings(navController: NavHostController) {
+fun AllListings(navController: NavController) {
 
     Column {
         // Menu bar
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
 
-            IconButton(onClick = { navController.navigate(ROUTE_ALL_LISTINGS) }) {
-                Icon(Icons.Default.List, contentDescription = "Listings")
-            }
-
-
-            // View all listings icon
-            IconButton(onClick = {  navController.navigate(ROUTE_MY_LISTINGS) }) {
-                Icon(Icons.Default.Search, contentDescription = "My Listing")
-            }
-
-            // Profile icon
-            IconButton(onClick = { /* Handle profile icon click */ }) {
-                Icon(Icons.Default.Person, contentDescription = "Profile")
-            }
-
-            // Add listing icon
-            IconButton(onClick = { /* Handle add listing icon click */ }) {
-                Icon(Icons.Default.Add, contentDescription = "Add Listing")
-            }
-
-        }
+        MenuBar(navController = navController)
 
         // Spacer to add some space between menu bar and list
         Spacer(modifier = Modifier.height(1.dp))
 
         @Composable
-        fun ImageListItem(
+        fun ImageListItemAll(
             modifier: Modifier = Modifier,
             imageId: Int,
             address: String,
@@ -89,7 +62,7 @@ fun AllListings(navController: NavHostController) {
             Column(
                 modifier = modifier
                     .fillMaxWidth()
-                    .clickable(onClick = onClick), // Making the entire Column clickable
+                    .clickable(onClick =  {navController.navigate(ROUTE_DETAILED_PROPERTY)} ), // Making the entire Column clickable
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Image(
@@ -106,7 +79,7 @@ fun AllListings(navController: NavHostController) {
                 ) {
                     Text(
                         text = "Address: $address",
-                        textAlign = TextAlign.Center // Center-aligning the text
+                        textAlign = TextAlign.Center ,// Center-aligning the text
                     )
                     Text(
                         text = "Lease Available From: $leaseAvailability",
@@ -126,13 +99,13 @@ fun AllListings(navController: NavHostController) {
 
 
         @Composable
-        fun ScrollableListWithImages(
+        fun ScrollableListWithImagesAll(
             imageList: List<PropertyDetails>,
             navController: NavController
         ) {
             LazyColumn {
                 items(imageList) { propertyDetails ->
-                    ImageListItem(
+                    ImageListItemAll(
                         imageId = propertyDetails.imageId,
                         address = propertyDetails.address,
                         leaseAvailability = propertyDetails.leaseAvailability,
@@ -142,7 +115,7 @@ fun AllListings(navController: NavHostController) {
                             navController.navigate("$ROUTE_DETAILED_PROPERTY/${propertyDetails.address}")
                         }
                     )
-                    Spacer(modifier = Modifier.height(10.dp))
+                    Spacer(modifier = Modifier.height(20.dp))
                 }
             }
 
@@ -151,23 +124,18 @@ fun AllListings(navController: NavHostController) {
 
 
         val image_list = listOf(
-            PropertyDetails(address = "123 Main St", leaseAvailability = "April 1, 2024", imageId = R.drawable.img_2, bedrooms = 2, bathrooms = 4),
-            PropertyDetails(address = "456 Elm St", leaseAvailability = "May 1, 2024", imageId = R.drawable.img_2, bedrooms = 1, bathrooms = 4),
-            PropertyDetails(address = "123 Main St", leaseAvailability = "April 1, 2024", imageId = R.drawable.img_2, bedrooms = 2, bathrooms = 4),
-            PropertyDetails(address = "456 Elm St", leaseAvailability = "May 1, 2024", imageId = R.drawable.img_2, bedrooms = 1, bathrooms = 4),
-            PropertyDetails(address = "123 Main St", leaseAvailability = "April 1, 2024", imageId = R.drawable.img_2, bedrooms = 2, bathrooms = 2),
-            PropertyDetails(address = "456 Elm St", leaseAvailability = "May 1, 2024", imageId = R.drawable.img_2, bedrooms = 1, bathrooms = 1),
-            PropertyDetails(address = "123 Main St", leaseAvailability = "April 1, 2024", imageId = R.drawable.img_2, bedrooms = 2, bathrooms = 1),
-            PropertyDetails(address = "456 Elm St", leaseAvailability = "May 1, 2024", imageId = R.drawable.img_2, bedrooms = 1, bathrooms = 1),
-            PropertyDetails(address = "123 Main St", leaseAvailability = "April 1, 2024", imageId = R.drawable.img_2, bedrooms = 3, bathrooms = 2),
-            PropertyDetails(address = "456 Elm St", leaseAvailability = "May 1, 2024", imageId = R.drawable.img_2, bedrooms = 2, bathrooms = 2),
-            PropertyDetails(address = "123 Main St", leaseAvailability = "April 1, 2024", imageId = R.drawable.img_2, bedrooms = 2, bathrooms = 1),
-            PropertyDetails(address = "456 Elm St", leaseAvailability = "May 1, 2024", imageId = R.drawable.img_2, bedrooms = 1, bathrooms = 1),
-            PropertyDetails(address = "123 Main St", leaseAvailability = "April 1, 2024", imageId = R.drawable.img_2, bedrooms = 3, bathrooms = 2),
-            PropertyDetails(address = "456 Elm St", leaseAvailability = "May 1, 2024", imageId = R.drawable.img_2, bedrooms = 2, bathrooms = 2)
-        )
+            PropertyDetails(address = "111 Main St", leaseAvailability = "April 1, 2024", imageId = R.drawable.img_2, bedrooms = 2, bathrooms = 4),
+            PropertyDetails(address = "222 Elm St", leaseAvailability = "May 1, 2024", imageId = R.drawable.img_2, bedrooms = 1, bathrooms = 4),
+            PropertyDetails(address = "333 Main St", leaseAvailability = "April 1, 2024", imageId = R.drawable.img_2, bedrooms = 2, bathrooms = 4),
+            PropertyDetails(address = "444 Elm St", leaseAvailability = "May 1, 2024", imageId = R.drawable.img_2, bedrooms = 1, bathrooms = 4),
+            PropertyDetails(address = "555 Main St", leaseAvailability = "April 1, 2024", imageId = R.drawable.img_2, bedrooms = 2, bathrooms = 4),
+            PropertyDetails(address = "666 Elm St", leaseAvailability = "May 1, 2024", imageId = R.drawable.img_2, bedrooms = 1, bathrooms = 4),
+            PropertyDetails(address = "777 Main St", leaseAvailability = "April 1, 2024", imageId = R.drawable.img_2, bedrooms = 2, bathrooms = 4),
+            PropertyDetails(address = "888 Elm St", leaseAvailability = "May 1, 2024", imageId = R.drawable.img_2, bedrooms = 1, bathrooms = 4),
 
-        ScrollableListWithImages(
+            )
+
+        ScrollableListWithImagesAll(
             imageList = image_list,
             navController = navController
         )

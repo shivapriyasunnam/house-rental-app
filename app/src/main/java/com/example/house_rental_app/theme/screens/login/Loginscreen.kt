@@ -51,6 +51,7 @@ import com.example.house_rental_app.data.AuthViewModel
 import com.example.house_rental_app.navigation.ROUTE_REGISTER
 import com.example.house_rental_app.R
 import com.example.house_rental_app.navigation.ROUTE_ALL_LISTINGS
+import com.example.house_rental_app.navigation.ROUTE_LOGIN
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -135,10 +136,10 @@ fun Loginscreen(navController: NavHostController) {
 
             Button(
                 onClick = {
+                    navController.navigate(ROUTE_ALL_LISTINGS)
                     //**********Do Database Authentication**********
 //                    val yyy = AuthViewModel(navController, context)
 //                    yyy.login(email.text.trim(), pass.text.trim())
-                    navController.navigate(ROUTE_ALL_LISTINGS)
                 },
                 colors = ButtonDefaults.buttonColors(Color.Black),
                 modifier = Modifier

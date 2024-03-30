@@ -56,9 +56,5 @@ fun AppNavHost(modifier: Modifier = Modifier, navController: NavHostController =
         composable(ROUTE_BOOKING){
             BookingScreen(navController)
         }
-
-
-
-
     }
 }

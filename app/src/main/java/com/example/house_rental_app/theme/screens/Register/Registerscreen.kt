@@ -28,6 +28,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,6 +43,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.airbnb.lottie.compose.LottieAnimation
@@ -49,8 +51,12 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.house_rental_app.R
-import com.example.house_rental_app.data.AuthViewModel
+import com.example.house_rental_app.data.AppViewModelProvider
+import com.example.house_rental_app.data.UserDetails
+import com.example.house_rental_app.data.UserViewModel
+import com.example.house_rental_app.entity.UserEntity
 import com.example.house_rental_app.navigation.ROUTE_LOGIN
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -61,7 +67,10 @@ fun RegisterScreen(navController: NavHostController){
     var isHomeRenter by remember { mutableStateOf(false) }
     var isHomeOwner by remember { mutableStateOf(false) }
     var context= LocalContext.current
-
+    val coroutineScope = rememberCoroutineScope()
+    val userViewModel: UserViewModel = viewModel(factory = AppViewModelProvider.Factory)
+    val onChange = userViewModel :: updateUserUiState
+    val itemUiState = userViewModel.userUiState
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -99,7 +108,11 @@ fun RegisterScreen(navController: NavHostController){
                 modifier = Modifier.padding(20.dp)
             )
             Spacer(modifier = Modifier.height(20.dp))
-            OutlinedTextField(value = email, onValueChange = { email = it },
+            OutlinedTextField(value = email,
+                onValueChange = {
+                    email = it
+//                    itemUiState.copy(email = it)
+                                },
                 label = { Text(text = "Enter Email") },
                 keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
                 modifier = Modifier
@@ -187,9 +200,12 @@ fun RegisterScreen(navController: NavHostController){
 
             Button(
                 onClick = {
-                    val myregister = AuthViewModel(navController, context)
-                    myregister.signup(email.text.trim(), pass.text.trim(), confirmpass.text.trim())
+                    itemUiState.copy(userDetails = UserDetails(username = "", email=email.text.trim(), password=pass.text.trim() ))
 
+                    val user = toUserEntity(email.text.trim(), pass.text.trim(), confirmpass.text.trim())
+                    coroutineScope.launch {
+                        userViewModel.registerUser(user)
+                    }
                 },
                 colors = ButtonDefaults.buttonColors(Color.Black),
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 50.dp)
@@ -211,6 +227,11 @@ fun RegisterScreen(navController: NavHostController){
     }
 
 }
+
+fun toUserEntity(email: String, password: String, confirmPassword: String): UserEntity {
+    return UserEntity(0,"",password,email, "",true, true)
+}
+
 @Preview
 @Composable
 fun Registerpage(){

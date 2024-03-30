@@ -51,7 +51,7 @@ fun HomeScreen(navController: NavHostController) {
             )
         Button(
             onClick = {
-                navController.navigate(ROUTE_LOGIN)
+                navController.navigate(ROUTE_BOOKING)
             },
             colors = ButtonDefaults.buttonColors(Color.Black),
             modifier = Modifier.fillMaxWidth().padding(horizontal = 50.dp)

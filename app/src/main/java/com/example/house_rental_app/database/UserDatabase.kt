@@ -1,0 +1,34 @@
+package com.example.house_rental_app.database
+import android.content.Context
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import com.example.house_rental_app.dao.HouseDao
+import com.example.house_rental_app.dao.UserDao
+import com.example.house_rental_app.entity.HouseEntity
+import com.example.house_rental_app.entity.UserEntity
+
+@Database(entities = [UserEntity::class, HouseEntity::class], version = 1, exportSchema = false)
+abstract class UserDatabase : RoomDatabase() {
+
+    abstract fun userDao(): UserDao
+    abstract fun houseDao(): HouseDao
+    // Define functions for other DAOs if needed
+
+    companion object {
+        @Volatile
+        private var INSTANCE: UserDatabase? = null
+
+        fun getDatabase(context: Context): UserDatabase {
+            return INSTANCE ?: synchronized(this) {
+                val instance = Room.databaseBuilder(
+                    context,
+                    UserDatabase::class.java,
+                    "user_database"
+                ).build()
+                INSTANCE = instance
+                instance
+            }
+        }
+    }
+}

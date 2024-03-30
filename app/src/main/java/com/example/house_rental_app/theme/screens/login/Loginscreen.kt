@@ -1,8 +1,7 @@
 package com.example.house_rental_app.theme.screens.login
 
-import android.media.Image
+import android.util.Log
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -34,23 +33,27 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.semantics.Role.Companion.Image
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
-import com.example.house_rental_app.data.AuthViewModel
 import com.example.house_rental_app.navigation.ROUTE_REGISTER
 import com.example.house_rental_app.R
-
+import androidx.compose.runtime.*
+import com.example.house_rental_app.data.AppViewModelProvider
+import com.example.house_rental_app.data.UserViewModel
+import com.example.house_rental_app.navigation.ROUTE_BOOKING
+import com.example.house_rental_app.navigation.ROUTE_LOGIN
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -58,7 +61,8 @@ fun Loginscreen(navController: NavHostController) {
     var email by remember { mutableStateOf(TextFieldValue("")) }
     var pass by remember { mutableStateOf(TextFieldValue("")) }
     val context = LocalContext.current
-
+    val coroutineScope = rememberCoroutineScope()
+    val userViewModel: UserViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
 
     Box(
@@ -134,8 +138,25 @@ fun Loginscreen(navController: NavHostController) {
 
             Button(
                 onClick = {
-                    val yyy = AuthViewModel(navController, context)
-                    yyy.login(email.text.trim(), pass.text.trim())
+//                    val yyy = AuthViewModel(navController, context)
+//                    yyy.login(email.text.trim(), pass.text.trim())
+//                    val x = userViewModel.userLogin(email.text.trim(), pass.text.trim())
+                    coroutineScope.launch {
+//                        userViewModel.userLogin(email.text.trim(), pass.text.trim())
+                        Log.println(Log.INFO, "I'm here", "")
+                        val user = userViewModel.loginUser(email.text.trim(), pass.text.trim())
+                        if (user != null){
+                            Log.println(Log.INFO, "Modda login pakka aindi ippudu", user.toString())
+                            navController.navigate(ROUTE_BOOKING)
+                        }
+                    }
+//                    userViewModel.userLogin(email.text.trim(), pass.text.trim()).observeAsState().value?.let { user ->
+//                            // Handle login success
+//
+//                    } ?: run {
+//                            // Handle login failure
+//                    }
+
                 },
                 colors = ButtonDefaults.buttonColors(Color.Black),
                 modifier = Modifier

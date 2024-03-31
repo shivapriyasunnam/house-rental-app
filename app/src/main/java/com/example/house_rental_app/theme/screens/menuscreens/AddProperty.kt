@@ -1,5 +1,6 @@
 package com.example.house_rental_app.theme.screens.menuscreens
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -44,6 +45,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.house_rental_app.R
 import com.example.house_rental_app.data.PropertyDetails
 import com.example.house_rental_app.navigation.ROUTE_DETAILED_PROPERTY
+import com.example.house_rental_app.navigation.ROUTE_MY_LISTINGS
 import java.io.File
 
 // Include MenuBar in your AddProperty composable
@@ -61,7 +63,9 @@ fun AddProperty(navController: NavController) {
 
     Column() {
 
-        MenuBar(navController = navController)
+        val currentRoute = getCurrentRoute(navController) ?: ""
+        Log.println(Log.INFO, "current route", currentRoute)
+        MenuBar(navController = navController, currentRoute = currentRoute)
 
         // Spacer to add some space between menu bar and list
         Spacer(modifier = Modifier.height(1.dp))
@@ -135,6 +139,8 @@ fun AddProperty(navController: NavController) {
                     val details =
                         "Image ID: $imageId, Address: $address, Lease: $leaseAvailability, Bedrooms: $bedrooms, Bathrooms: $bathrooms"
                     Toast.makeText(context, "Added to Listing", Toast.LENGTH_LONG).show()
+                    navController.navigate(ROUTE_MY_LISTINGS)
+
                 },
                 modifier = Modifier
                     .padding(top = 16.dp,)

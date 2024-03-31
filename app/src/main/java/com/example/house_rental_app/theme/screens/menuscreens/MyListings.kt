@@ -1,5 +1,6 @@
 package com.example.house_rental_app.theme.screens.menuscreens
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -41,7 +42,9 @@ fun MyListings(navController: NavController) {
 
     Column {
         // Menu bar
-        MenuBar(navController = navController)
+        val currentRoute = getCurrentRoute(navController) ?: ""
+        Log.println(Log.INFO, "current route", currentRoute)
+        MenuBar(navController = navController, currentRoute = currentRoute)
 
         // Spacer to add some space between menu bar and list
         Spacer(modifier = Modifier.height(1.dp))

@@ -1,5 +1,6 @@
 package com.example.house_rental_app.navigation
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -80,7 +81,6 @@ fun AppNavHost(modifier: Modifier = Modifier, navController: NavHostController =
             MyListings(navController)
         }
         composable(ROUTE_USER_PROFILE) {
-            val navController = rememberNavController()
             val user = User("example@example.com", "password123", "12345")
 
             UserProfile(
@@ -98,7 +98,7 @@ fun AppNavHost(modifier: Modifier = Modifier, navController: NavHostController =
         }
 
         composable(ROUTE_ADD_PROPERTY){
-            AddProperty(navController = navController )
+            AddProperty(navController )
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.house_rental_app.theme.screens.menuscreens
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -35,19 +36,20 @@ fun UserProfile(user: User, onUserUpdated: (User) -> Unit, navController: NavCon
     var editing by remember { mutableStateOf(false) }
     var editedUser by remember { mutableStateOf(user) }
 
-    Surface(
-        color = MaterialTheme.colorScheme.background,
-        modifier = Modifier.fillMaxSize()
-    ) {
+    Column() {
+        val currentRoute = getCurrentRoute(navController) ?: ""
+        Log.println(Log.INFO, "current route", currentRoute)
+        MenuBar(navController = navController, currentRoute = currentRoute)
+
+        // Spacer to add some space between menu bar and list
+        Spacer(modifier = Modifier.height(30.dp))
+
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.padding(horizontal = 15.dp)
         ) {
             // Menu bar
-            MenuBar(navController = navController)
 
-            // Spacer to add some space between menu bar and list
-            Spacer(modifier = Modifier.height(30.dp))
 
             Text(text = "User Profile", style = MaterialTheme.typography.bodyLarge)
             Spacer(modifier = Modifier.height(16.dp))
@@ -139,7 +141,7 @@ private fun UserDetail(label: String, value: String, onValueChange: (String) -> 
 
 
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun UserProfilePreview() {
     val navController = rememberNavController()

@@ -55,6 +55,9 @@ import com.example.house_rental_app.navigation.ROUTE_BOOKING
 import com.example.house_rental_app.navigation.ROUTE_LOGIN
 import kotlinx.coroutines.launch
 
+import com.example.house_rental_app.navigation.ROUTE_ALL_LISTINGS
+import com.example.house_rental_app.navigation.ROUTE_LOGIN
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Loginscreen(navController: NavHostController) {
@@ -147,15 +150,10 @@ fun Loginscreen(navController: NavHostController) {
                         val user = userViewModel.loginUser(email.text.trim(), pass.text.trim())
                         if (user != null){
                             Log.println(Log.INFO, "Modda login pakka aindi ippudu", user.toString())
-                            navController.navigate(ROUTE_BOOKING)
+                            navController.navigate(ROUTE_ALL_LISTINGS)
                         }
                     }
-//                    userViewModel.userLogin(email.text.trim(), pass.text.trim()).observeAsState().value?.let { user ->
-//                            // Handle login success
-//
-//                    } ?: run {
-//                            // Handle login failure
-//                    }
+
 
                 },
                 colors = ButtonDefaults.buttonColors(Color.Black),

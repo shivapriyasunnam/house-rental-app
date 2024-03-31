@@ -10,7 +10,4 @@ class User{
         this.pass=pass
         this.userid=userid
     }
-    constructor(){
-
-    }
 }

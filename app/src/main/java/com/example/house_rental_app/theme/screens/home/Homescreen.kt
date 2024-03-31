@@ -37,6 +37,7 @@ import com.example.house_rental_app.navigation.ROUTE_BOOKING
 import com.example.house_rental_app.navigation.ROUTE_LOGIN
 import com.example.house_rental_app.navigation.ROUTE_REGISTER
 import com.example.house_rental_app.R
+import com.example.house_rental_app.navigation.ROUTE_NEWLOGIN
 
 @Composable
 fun HomeScreen(navController: NavHostController) {
@@ -57,7 +58,7 @@ fun HomeScreen(navController: NavHostController) {
             modifier = Modifier.fillMaxWidth().padding(horizontal = 50.dp)
         )
         {
-            Text(text = "Looking for a Home?")
+            Text(text = "Login")
 
         }
         Button(
@@ -68,7 +69,7 @@ fun HomeScreen(navController: NavHostController) {
             modifier = Modifier.fillMaxWidth().padding(horizontal = 50.dp)
         )
         {
-            Text(text = "Landlord's Login/Signup")
+            Text(text = "Register")
 
         }
 //        Spacer(modifier = Modifier.height(30.dp))
@@ -400,182 +401,13 @@ fun HomeScreen(navController: NavHostController) {
     }
 }
 
-//
-//
-//
-//
-//                Spacer(modifier = Modifier.width(10.dp))
-////                Row(modifier = Modifier.padding(start = 5.dp)) {
-//                Card() {
-//                    Column {
-//                        Box(
-//                            modifier = Modifier
-//                                .height(150.dp)
-//                                .width(180.dp),
-//
-//                            ) {
-//                            Image(
-//                                painter = painterResource(id = R.drawable.rentalfive),
-//                                contentDescription = "",
-//                                contentScale = ContentScale.Crop,
-//                                modifier = Modifier
-//                                    .fillMaxWidth()
-//                                    .fillMaxHeight()
-//                                    .size(400.dp)
-//                            )
-//                        }
-//                        Text(
-//                            text = "Starehe Rentals",
-//                            textAlign = TextAlign.Center,
-//                            fontSize = 20.sp,
-//                            fontWeight = FontWeight.SemiBold,
-//                            color = Color.Black
-//                        )
-//                    }
-//
-//                }
-//
-//
-//                Spacer(modifier = Modifier.width(10.dp))
-////                Row(modifier = Modifier.padding(start = 5.dp)) {
-//                Card() {
-//                    Column {
-//                        Box(
-//                            modifier = Modifier
-//                                .height(150.dp)
-//                                .width(180.dp),
-//
-//                            ) {
-//                            Image(
-//                                painter = painterResource(id = R.drawable.rentalsix),
-//                                contentDescription = "",
-//                                contentScale = ContentScale.Crop,
-//                                modifier = Modifier
-//                                    .fillMaxWidth()
-//                                    .fillMaxHeight()
-//                                    .size(400.dp)
-//                            )
-//                        }
-//                        Text(
-//                            text = "Fully Furnished",
-//                            textAlign = TextAlign.Center,
-//                            fontSize = 20.sp,
-//                            fontWeight = FontWeight.SemiBold,
-//                            color = Color.Black
-//                        )
-//                    }
-//
-//                }
-//            }
-//
-//
-//            Spacer(modifier = Modifier.width(10.dp))
-//            Card() {
-//                Column {
-//                    Box(
-//                        modifier = Modifier
-//                            .height(150.dp)
-//                            .width(180.dp),
-//
-//                        ) {
-//                        Image(
-//                            painter = painterResource(id = R.drawable.rentalseven),
-//                            contentDescription = "",
-//                            contentScale = ContentScale.Crop,
-//                            modifier = Modifier
-//                                .fillMaxWidth()
-//                                .fillMaxHeight()
-//                                .size(400.dp)
-//                        )
-//                    }
-//                    Text(
-//                        text = "Great Interior Design",
-//                        textAlign = TextAlign.Center,
-//                        fontSize = 20.sp,
-//                        fontWeight = FontWeight.SemiBold,
-//                        color = Color.Black
-//                    )
-//                }
-//
-//            }
-//
-//        }
-//    }
-//    Spacer(modifier = Modifier.width(10.dp))
-//
-////    Card() {
-////        Column {
-////            Box(
-////                modifier = Modifier
-////                    .height(150.dp)
-////                    .width(180.dp),
-////
-////                ) {
-////                Image(
-////                    painter = painterResource(id = R.drawable.rentaleight),
-////                    contentDescription = "",
-////                    contentScale = ContentScale.Crop,
-////                    modifier = Modifier
-////                        .fillMaxWidth()
-////                        .fillMaxHeight()
-////                        .size(400.dp)
-////                )
-////            }
-////            Text(
-////                text = "Efficient Lighting",
-////                textAlign = TextAlign.Center,
-////                fontSize = 20.sp,
-////                fontWeight = FontWeight.SemiBold,
-////                color = Color.Black
-////            )
-////        }
-////
-//
-//
-//    Spacer(modifier = Modifier.width(10.dp))
-//
-//    Button(
-//        onClick = {
-//            navController.navigate(ROUTE_LOGIN)
-//        },
-//
-//        colors = ButtonDefaults.buttonColors(Color.Black),
-//        modifier = Modifier.fillMaxWidth()
-//    )
-//    {
-//        Text(text = "Already a member?Click to Login")
-//
-//    }
 
 
-//        Button(
-//            onClick = {
-//                navController.navigate(ROUTE_BOOKING)
-//            },
-//            colors = ButtonDefaults.buttonColors(Color.Black),
-//            modifier = Modifier.fillMaxWidth()
-//        )
-//        {
-//            Text(text = "Book with us a beautiful home from any high-end estates ")
-//
-//        }
-
-
-
-
-
-
-
-
-
-
-
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun HomeScreenPreview(){
     HomeScreen(rememberNavController())
 
-//    CustomAppBar()
 }
 
 

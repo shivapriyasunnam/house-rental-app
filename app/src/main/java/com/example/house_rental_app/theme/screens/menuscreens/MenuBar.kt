@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
@@ -26,6 +27,7 @@ import com.example.house_rental_app.R
 import com.example.house_rental_app.data.PropertyDetails
 import com.example.house_rental_app.navigation.ROUTE_ADD_PROPERTY
 import com.example.house_rental_app.navigation.ROUTE_ALL_LISTINGS
+import com.example.house_rental_app.navigation.ROUTE_HOME
 import com.example.house_rental_app.navigation.ROUTE_MY_LISTINGS
 import com.example.house_rental_app.navigation.ROUTE_USER_PROFILE
 
@@ -47,15 +49,33 @@ fun MenuBar(navController: NavController) {
             Icon(Icons.Default.Search, contentDescription = "My Listing")
         }
 
-        // Profile icon
-        IconButton(onClick = { navController.navigate(ROUTE_USER_PROFILE)}) {
-            Icon(Icons.Default.Person, contentDescription = "Profile")
-        }
 
         // Add listing icon
         IconButton(onClick = { navController.navigate(ROUTE_ADD_PROPERTY) }) {
             Icon(Icons.Default.Add, contentDescription = "Add Listing")
         }
+
+        // Profile icon
+        IconButton(onClick = { navController.navigate(ROUTE_USER_PROFILE)}) {
+            Icon(Icons.Default.Person, contentDescription = "Profile")
+        }
+
+        // Logout icon
+        IconButton(onClick = {
+            // Handle logout logic here
+            // For example, clear user session data and navigate to the login screen
+            // navController.navigate(ROUTE_LOGIN) { popUpTo(0) }
+            navController.navigate(ROUTE_HOME)
+        }) {
+            Icon(Icons.Default.ExitToApp, contentDescription = "Logout")
+        }
     }
 }
 
+
+@Preview(showBackground = true)
+@Composable
+fun MenuBarPreview() {
+    val navController = rememberNavController()
+    MenuBar(navController = navController)
+}

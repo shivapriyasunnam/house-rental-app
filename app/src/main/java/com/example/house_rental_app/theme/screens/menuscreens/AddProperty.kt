@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -37,6 +38,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.house_rental_app.R
@@ -64,78 +66,86 @@ fun AddProperty(navController: NavController) {
         // Spacer to add some space between menu bar and list
         Spacer(modifier = Modifier.height(1.dp))
 
-        Scaffold(
-            topBar = {
-                SmallTopAppBar(
-                    title = {
-                        // Using Box for more control over the alignment
-                        Box(
-                            modifier = Modifier.fillMaxSize(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(
-                                "Add Property Details",
-                                style = MaterialTheme.typography.titleLarge
-                            )
-                        }
-                    }
-                )
-            }
-        ) { paddingValues ->
-            Column(
+        Text(
+            text = "Add Property to List",
+            fontSize = 20.sp,
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentSize(Alignment.Center)
+
+        )
+
+        Column(
+            modifier = Modifier
+                .padding(10.dp)
+                .padding(16.dp)
+                .fillMaxWidth()
+        ) {
+            // Input fields
+            OutlinedTextField(
+                value = imageId,
+                onValueChange = { imageId = it },
+                label = { Text("Image ID (numeric)") },
                 modifier = Modifier
-                    .padding(paddingValues)
-                    .padding(16.dp)
+                    .padding(bottom = 8.dp)
                     .fillMaxWidth()
+            )
+            OutlinedTextField(
+                value = address,
+                onValueChange = { address = it },
+                label = { Text("Address") },
+                modifier = Modifier
+                    .padding(bottom = 8.dp)
+                    .fillMaxWidth()
+            )
+            OutlinedTextField(
+                value = leaseAvailability,
+                onValueChange = { leaseAvailability = it },
+                label = { Text("Lease Availability") },
+                modifier = Modifier
+                    .padding(bottom = 8.dp)
+                    .fillMaxWidth()
+            )
+            OutlinedTextField(
+                value = bedrooms,
+                onValueChange = { bedrooms = it },
+                label = { Text("Price") },
+                modifier = Modifier
+                    .padding(bottom = 8.dp)
+                    .fillMaxWidth()
+            )
+            OutlinedTextField(
+                value = bathrooms,
+                onValueChange = { bathrooms = it },
+                label = { Text("Description") },
+                modifier = Modifier
+                    .padding(bottom = 8.dp)
+                    .fillMaxWidth()
+                    .size(200.dp)
+            )
+
+            //Price
+            //Description
+
+            Button(
+                onClick = {
+                    // Here you'd typically collect the data and use it
+                    // For example, send it to a ViewModel or directly to a database
+                    // Note: Make sure to validate and convert numeric fields appropriately
+                    val details =
+                        "Image ID: $imageId, Address: $address, Lease: $leaseAvailability, Bedrooms: $bedrooms, Bathrooms: $bathrooms"
+                    Toast.makeText(context, "Added to Listing", Toast.LENGTH_LONG).show()
+                },
+                modifier = Modifier
+                    .padding(top = 16.dp,)
+                    .fillMaxWidth()
+                    .padding(horizontal = 50.dp)
             ) {
-                // Input fields
-                OutlinedTextField(
-                    value = imageId,
-                    onValueChange = { imageId = it },
-                    label = { Text("Image ID (numeric)") },
-                    modifier = Modifier.padding(bottom = 8.dp).fillMaxWidth()
-                )
-                OutlinedTextField(
-                    value = address,
-                    onValueChange = { address = it },
-                    label = { Text("Address") },
-                    modifier = Modifier.padding(bottom = 8.dp).fillMaxWidth()
-                )
-                OutlinedTextField(
-                    value = leaseAvailability,
-                    onValueChange = { leaseAvailability = it },
-                    label = { Text("Lease Availability") },
-                    modifier = Modifier.padding(bottom = 8.dp).fillMaxWidth()
-                )
-                OutlinedTextField(
-                    value = bedrooms,
-                    onValueChange = { bedrooms = it },
-                    label = { Text("Bedrooms (numeric)") },
-                    modifier = Modifier.padding(bottom = 8.dp).fillMaxWidth()
-                )
-                OutlinedTextField(
-                    value = bathrooms,
-                    onValueChange = { bathrooms = it },
-                    label = { Text("Bathrooms (numeric)") },
-                    modifier = Modifier.padding(bottom = 8.dp).fillMaxWidth()
-                )
-                Button(
-                    onClick = {
-                        // Here you'd typically collect the data and use it
-                        // For example, send it to a ViewModel or directly to a database
-                        // Note: Make sure to validate and convert numeric fields appropriately
-                        val details =
-                            "Image ID: $imageId, Address: $address, Lease: $leaseAvailability, Bedrooms: $bedrooms, Bathrooms: $bathrooms"
-                        Toast.makeText(context, details, Toast.LENGTH_LONG).show()
-                    },
-                    modifier = Modifier.padding(top = 16.dp,).fillMaxWidth().padding(horizontal = 50.dp)
-                ) {
-                    Text("Submit")
-                }
+                Text("Submit")
             }
         }
-
     }
+
 }
 
 

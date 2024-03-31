@@ -144,16 +144,16 @@ fun Loginscreen(navController: NavHostController) {
 //                    val yyy = AuthViewModel(navController, context)
 //                    yyy.login(email.text.trim(), pass.text.trim())
 //                    val x = userViewModel.userLogin(email.text.trim(), pass.text.trim())
-                    coroutineScope.launch {
-//                        userViewModel.userLogin(email.text.trim(), pass.text.trim())
-                        Log.println(Log.INFO, "I'm here", "")
-                        val user = userViewModel.loginUser(email.text.trim(), pass.text.trim())
-                        if (user != null){
-                            Log.println(Log.INFO, "Modda login pakka aindi ippudu", user.toString())
-                            navController.navigate(ROUTE_ALL_LISTINGS)
-                        }
-                    }
-
+//                    coroutineScope.launch {
+////                        userViewModel.userLogin(email.text.trim(), pass.text.trim())
+//                        Log.println(Log.INFO, "I'm here", "")
+//                        val user = userViewModel.loginUser(email.text.trim(), pass.text.trim())
+//                        if (user != null){
+//                            Log.println(Log.INFO, "Modda login pakka aindi ippudu", user.toString())
+//                            navController.navigate(ROUTE_ALL_LISTINGS)
+//                        }
+//                    }
+                    navController.navigate(ROUTE_ALL_LISTINGS)
 
                 },
                 colors = ButtonDefaults.buttonColors(Color.Black),

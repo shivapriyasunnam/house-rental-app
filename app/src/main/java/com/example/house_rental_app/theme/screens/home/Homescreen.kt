@@ -37,6 +37,7 @@ import com.example.house_rental_app.navigation.ROUTE_BOOKING
 import com.example.house_rental_app.navigation.ROUTE_LOGIN
 import com.example.house_rental_app.navigation.ROUTE_REGISTER
 import com.example.house_rental_app.R
+import com.example.house_rental_app.navigation.ROUTE_ALL_LISTINGS
 import com.example.house_rental_app.navigation.ROUTE_NEWLOGIN
 
 @Composable
@@ -52,7 +53,8 @@ fun HomeScreen(navController: NavHostController) {
             )
         Button(
             onClick = {
-                navController.navigate(ROUTE_BOOKING)
+                //TODO AUTHENTICATION
+                navController.navigate(ROUTE_ALL_LISTINGS)
             },
             colors = ButtonDefaults.buttonColors(Color.Black),
             modifier = Modifier.fillMaxWidth().padding(horizontal = 50.dp)
@@ -63,7 +65,7 @@ fun HomeScreen(navController: NavHostController) {
         }
         Button(
             onClick = {
-                navController.navigate(ROUTE_LOGIN)
+                navController.navigate(ROUTE_REGISTER)
             },
             colors = ButtonDefaults.buttonColors(Color.Black),
             modifier = Modifier.fillMaxWidth().padding(horizontal = 50.dp)

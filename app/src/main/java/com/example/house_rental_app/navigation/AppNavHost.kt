@@ -98,7 +98,7 @@ fun AppNavHost(modifier: Modifier = Modifier, navController: NavHostController =
         }
 
         composable(ROUTE_ADD_PROPERTY){
-            AddProperty(onPropertyAdded = {}, navController = navController )
+            AddProperty(navController = navController )
         }
     }
 }

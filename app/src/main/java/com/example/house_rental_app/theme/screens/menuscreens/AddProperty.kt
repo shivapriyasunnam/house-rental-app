@@ -43,6 +43,11 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.house_rental_app.R
+
+import com.example.house_rental_app.data.HouseViewModel
+import com.example.house_rental_app.data.PropertyDetails
+import com.example.house_rental_app.data.UserViewModel
+import com.example.house_rental_app.entity.HouseEntity
 import com.example.house_rental_app.navigation.ROUTE_DETAILED_PROPERTY
 import com.example.house_rental_app.navigation.ROUTE_MY_LISTINGS
 import java.io.File
@@ -52,13 +57,14 @@ import java.io.File
 @Composable
 fun AddProperty(navController: NavController) {
     val context = LocalContext.current
-
+    val currentUser = UserViewModel().currentUser
+    val houseViewModel = HouseViewModel()
     // State for each property detail
     var imageId by remember { mutableStateOf("") }
     var address by remember { mutableStateOf("") }
     var leaseAvailability by remember { mutableStateOf("") }
-    var bedrooms by remember { mutableStateOf("") }
-    var bathrooms by remember { mutableStateOf("") }
+    var price by remember { mutableStateOf("") }
+    var description by remember { mutableStateOf("") }
 
     Column() {
 
@@ -110,16 +116,16 @@ fun AddProperty(navController: NavController) {
                     .fillMaxWidth()
             )
             OutlinedTextField(
-                value = bedrooms,
-                onValueChange = { bedrooms = it },
+                value = price,
+                onValueChange = { price = it },
                 label = { Text("Price") },
                 modifier = Modifier
                     .padding(bottom = 8.dp)
                     .fillMaxWidth()
             )
             OutlinedTextField(
-                value = bathrooms,
-                onValueChange = { bathrooms = it },
+                value = description,
+                onValueChange = { description = it },
                 label = { Text("Description") },
                 modifier = Modifier
                     .padding(bottom = 8.dp)
@@ -135,8 +141,19 @@ fun AddProperty(navController: NavController) {
                     // Here you'd typically collect the data and use it
                     // For example, send it to a ViewModel or directly to a database
                     // Note: Make sure to validate and convert numeric fields appropriately
-                    val details =
-                        "Image ID: $imageId, Address: $address, Lease: $leaseAvailability, Bedrooms: $bedrooms, Bathrooms: $bathrooms"
+//                    val details =
+//                        "Image ID: $imageId, Address: $address, Lease: $leaseAvailability, Bedrooms: $bedrooms, Bathrooms: $bathrooms"
+                    val propertyDetails = currentUser.value?.let {
+                        HouseEntity(
+                            ownerId = it.id,
+                            price = price.toInt(),
+                            address = address,
+                            images = "",
+                            description =  description,
+                            lease = ""
+                            )
+                    }
+
                     Toast.makeText(context, "Added to Listing", Toast.LENGTH_LONG).show()
                     navController.navigate(ROUTE_MY_LISTINGS)
 

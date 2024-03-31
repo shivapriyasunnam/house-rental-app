@@ -4,26 +4,36 @@ import android.content.Context
 import com.example.house_rental_app.dao.HouseDao
 import com.example.house_rental_app.database.UserDatabase
 import com.example.house_rental_app.entity.HouseEntity
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.withContext
 
-class HouseRepository(context: Context) {
+interface HouseRepository {
 
-    private val houseDao: HouseDao = UserDatabase.getDatabase(context).houseDao()
+    val houseDao: HouseDao
 
     suspend fun addHouse(house: HouseEntity) {
-        houseDao.addHouse(house)
+        withContext(Dispatchers.IO){
+            houseDao.addHouse(house)
+        }
     }
 
     suspend fun deleteHouse(house: HouseEntity) {
-        houseDao.deleteHouse(house)
+        withContext(Dispatchers.IO){
+            houseDao.deleteHouse(house)
+        }
     }
 
-    fun viewAllHousesBasedOnOwnerID(userId: Int): Flow<List<HouseEntity>> {
-        return houseDao.viewAllHousesBasedOnOwnerID(userId)
+    suspend fun viewAllHousesBasedOnOwnerID(userId: Int): Flow<List<HouseEntity>> {
+        return withContext(Dispatchers.IO){
+            houseDao.viewAllHousesBasedOnOwnerID(userId)
+        }
     }
 
     suspend fun editHouse(house: HouseEntity) {
-        houseDao.editHouse(house)
+        withContext(Dispatchers.IO){
+            houseDao.editHouse(house)
+        }
     }
 
     // You can define other functions for house-related operations here

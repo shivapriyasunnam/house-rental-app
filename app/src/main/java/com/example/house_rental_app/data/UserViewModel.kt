@@ -4,6 +4,8 @@ import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,6 +16,11 @@ import com.example.house_rental_app.repository.UserRepository
 import kotlinx.coroutines.launch
 
 class UserViewModel : ViewModel() {
+    private val _currentUser = MutableLiveData<UserEntity?>()
+    val currentUser: LiveData<UserEntity?> = _currentUser
+    fun setUser(user: UserEntity?){
+        _currentUser.value = user
+    }
     private val userRepository: UserRepository by lazy {
         DatabaseApplication.container.userRepository
     }
@@ -48,12 +55,18 @@ class UserViewModel : ViewModel() {
     /**
      * Logs in the user if the input is valid.
      */
-    suspend fun loginUser(email: String, password: String): UserEntity? {
+    fun loginUser(email: String, password: String): UserEntity? {
 //        if (validateInput()) {
             // Logic to handle user login
         viewModelScope.launch {
             Log.println(Log.INFO, "Modda Login aindu", "Noice")
             val user = userRepository.userLogin(email, password)
+            if(user != null){
+                _currentUser.value = user
+            }
+            else{
+                _currentUser.value = null
+            }
             Log.println(Log.INFO, "Modda Login aindu", user.toString())
         }
 //        }

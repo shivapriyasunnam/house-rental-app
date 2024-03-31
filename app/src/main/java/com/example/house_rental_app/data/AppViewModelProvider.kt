@@ -15,7 +15,7 @@ object AppViewModelProvider {
             UserViewModel()
         }
         initializer {
-            HouseViewModel(context = DatabaseApplication.getInstance().applicationContext)
+            HouseViewModel()
         }
     }
 }

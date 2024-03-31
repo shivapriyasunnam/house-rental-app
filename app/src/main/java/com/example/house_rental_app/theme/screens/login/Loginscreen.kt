@@ -49,6 +49,7 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.house_rental_app.navigation.ROUTE_REGISTER
 import com.example.house_rental_app.R
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import com.example.house_rental_app.data.AppViewModelProvider
 import com.example.house_rental_app.data.UserViewModel
 import com.example.house_rental_app.navigation.ROUTE_BOOKING
@@ -66,14 +67,16 @@ fun Loginscreen(navController: NavHostController) {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
     val userViewModel: UserViewModel = viewModel(factory = AppViewModelProvider.Factory)
-
+    val user by userViewModel.currentUser.observeAsState()
 
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
         // Background Image
         Image(painter = painterResource(id = R.drawable.img), contentDescription = null,
-            modifier = Modifier.fillMaxSize().alpha(0.7f), contentScale = ContentScale.FillHeight,
+            modifier = Modifier
+                .fillMaxSize()
+                .alpha(0.7f), contentScale = ContentScale.FillHeight,
             alignment = Alignment.Center)
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -144,16 +147,10 @@ fun Loginscreen(navController: NavHostController) {
 //                    val yyy = AuthViewModel(navController, context)
 //                    yyy.login(email.text.trim(), pass.text.trim())
 //                    val x = userViewModel.userLogin(email.text.trim(), pass.text.trim())
-//                    coroutineScope.launch {
-////                        userViewModel.userLogin(email.text.trim(), pass.text.trim())
-//                        Log.println(Log.INFO, "I'm here", "")
-//                        val user = userViewModel.loginUser(email.text.trim(), pass.text.trim())
-//                        if (user != null){
-//                            Log.println(Log.INFO, "Modda login pakka aindi ippudu", user.toString())
-//                            navController.navigate(ROUTE_ALL_LISTINGS)
-//                        }
-//                    }
-                    navController.navigate(ROUTE_ALL_LISTINGS)
+                    coroutineScope.launch {
+                        userViewModel.loginUser(email.text.trim(), pass.text.trim())
+                    }
+//                    navController.navigate(ROUTE_ALL_LISTINGS)
 
                 },
                 colors = ButtonDefaults.buttonColors(Color.Black),
@@ -184,7 +181,14 @@ fun Loginscreen(navController: NavHostController) {
 
 
     }
+    LaunchedEffect(user){
+        user?.let{
+            Log.println(Log.INFO, "Navigation", "Navigating to ROUTE_ALL_LISTINGS")
+            navController.navigate(ROUTE_ALL_LISTINGS)
+        }
+    }
 }
+
 @Preview
 @Composable
 fun LoginscreePreview(){

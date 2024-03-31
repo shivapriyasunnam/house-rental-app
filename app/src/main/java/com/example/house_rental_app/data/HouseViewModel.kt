@@ -3,15 +3,19 @@ package com.example.house_rental_app.data
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.house_rental_app.DatabaseApplication
 import com.example.house_rental_app.entity.HouseEntity
 import com.example.house_rental_app.repository.HouseRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.launch
 
-class HouseViewModel(context: Context) : ViewModel() {
+class HouseViewModel() : ViewModel() {
 
-    private val houseRepository = HouseRepository(context)
+    private val houseRepository : HouseRepository by lazy{
+        DatabaseApplication.container.houseRepository
+    }
 
     // Function to add a new house
     fun addHouse(house: HouseEntity) {
@@ -28,8 +32,12 @@ class HouseViewModel(context: Context) : ViewModel() {
     }
 
     // Function to retrieve all houses based on owner ID
-    fun viewAllHousesBasedOnOwnerID(userId: Int): Flow<List<HouseEntity>> {
-        return houseRepository.viewAllHousesBasedOnOwnerID(userId)
+    suspend fun viewAllHousesBasedOnOwnerID(userId: Int): Flow<List<HouseEntity>> {
+        var allHouses = emptyFlow<List<HouseEntity>>()
+        viewModelScope.launch(Dispatchers.IO) {
+             allHouses = houseRepository.viewAllHousesBasedOnOwnerID(userId)
+        }
+        return allHouses
     }
 
     // Function to edit house details

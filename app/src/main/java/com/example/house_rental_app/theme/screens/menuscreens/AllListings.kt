@@ -30,11 +30,16 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.house_rental_app.R
 import com.example.house_rental_app.entity.HouseEntity
+import com.example.house_rental_app.data.PropertyDetails
+import com.example.house_rental_app.data.UserViewModel
+import com.example.house_rental_app.entity.UserEntity
+import com.example.house_rental_app.navigation.ROUTE_ALL_LISTINGS
 import com.example.house_rental_app.navigation.ROUTE_DETAILED_PROPERTY
 
 @Composable
 fun AllListings(navController: NavController) {
 
+    val user = UserViewModel().currentUser
     Column {
         // Menu bar
 

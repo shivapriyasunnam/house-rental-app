@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+
 import com.example.house_rental_app.data.PropertyDetails
 import com.example.house_rental_app.models.User
 import com.example.house_rental_app.theme.screens.Register.NewRegisterScreen
@@ -20,12 +21,12 @@ import com.example.house_rental_app.theme.screens.menuscreens.AllListings
 import com.example.house_rental_app.theme.screens.menuscreens.MyListings
 import com.example.house_rental_app.theme.screens.menuscreens.UserProfile
 
-
 import com.example.house_rental_app.theme.screens.profiless.AddProfile
 import com.example.house_rental_app.theme.screens.profiless.Updateprofile
 import com.example.house_rental_app.theme.screens.profiless.Viewprofile
 import com.example.house_rental_app.theme.screens.property.DetailedProperty
 import com.google.gson.Gson
+import com.example.house_rental_app.theme.screens.profiless.Viewprofile
 
 @Composable
 fun AppNavHost(modifier: Modifier = Modifier, navController: NavHostController = rememberNavController(), startDestination:String= ROUTE_HOME) {
@@ -62,9 +63,9 @@ fun AppNavHost(modifier: Modifier = Modifier, navController: NavHostController =
         composable(ROUTE_CONTACTUS){
             ContactUs(navController)
         }
-        composable(ROUTE_BOOKING){
-            BookingScreen(navController)
-        }
+//        composable(ROUTE_BOOKING){
+//            BookingScreen(navController)
+//        }
         composable(ROUTE_NEWLOGIN){
             NewLoginScreen(navController)
         }
@@ -95,9 +96,6 @@ fun AppNavHost(modifier: Modifier = Modifier, navController: NavHostController =
         composable(ROUTE_ADD_PROPERTY){
             AddProperty(onPropertyAdded = {}, navController = navController )
         }
-
-
-
 
     }
 }

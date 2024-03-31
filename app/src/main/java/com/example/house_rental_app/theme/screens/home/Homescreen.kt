@@ -63,7 +63,7 @@ fun HomeScreen(navController: NavHostController) {
         }
         Button(
             onClick = {
-                navController.navigate(ROUTE_REGISTER)
+                navController.navigate(ROUTE_LOGIN)
             },
             colors = ButtonDefaults.buttonColors(Color.Black),
             modifier = Modifier.fillMaxWidth().padding(horizontal = 50.dp)
@@ -402,12 +402,12 @@ fun HomeScreen(navController: NavHostController) {
 }
 
 
+
 @Preview(showBackground = true)
 @Composable
 fun HomeScreenPreview(){
     HomeScreen(rememberNavController())
 
-//    CustomAppBar()
 }
 
 

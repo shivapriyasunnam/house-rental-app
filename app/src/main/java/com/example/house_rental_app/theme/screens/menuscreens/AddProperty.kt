@@ -46,11 +46,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.house_rental_app.R
-<<<<<<< HEAD
 
-=======
 import com.example.house_rental_app.data.AppViewModelProvider
->>>>>>> 281f6c7 (User and Houses CRUD in Progress)
 import com.example.house_rental_app.data.HouseViewModel
 import com.example.house_rental_app.data.PropertyDetails
 import com.example.house_rental_app.data.UserViewModel
@@ -161,16 +158,11 @@ fun AddProperty(navController: NavController) {
                             address = address,
                             images = "",
                             description =  description,
-<<<<<<< HEAD
                             lease = ""
-                            )
-=======
-                            utilities = ""
                     )
 
                     coroutineScope.launch {
                         houseViewModel.addHouse(propertyDetails)
->>>>>>> 281f6c7 (User and Houses CRUD in Progress)
                     }
 
                     Toast.makeText(context, "Added to Listing", Toast.LENGTH_LONG).show()

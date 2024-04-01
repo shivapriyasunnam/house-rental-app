@@ -12,7 +12,7 @@ data class UserEntity (
     @ColumnInfo(name = "password") var password: String,
 //    @ColumnInfo(name = "houses") val housesList: List<HouseEntity>,
     @ColumnInfo(name = "emailid") var emailId: String,
-    @ColumnInfo(name = "phoneNumber") val phoneNumber: String,
+    @ColumnInfo(name = "phoneNumber") var phoneNumber: String,
     @ColumnInfo(name = "showOnlyEmail") val showOnlyEmail: Boolean,
     @ColumnInfo(name= "showOnlyPhone") val showOnlyPhone: Boolean,
 

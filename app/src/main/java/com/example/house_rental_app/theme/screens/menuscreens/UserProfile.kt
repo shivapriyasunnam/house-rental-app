@@ -27,14 +27,10 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-<<<<<<< HEAD
 import com.example.house_rental_app.entity.UserEntity
-=======
 import com.example.house_rental_app.data.UserViewModel
-import com.example.house_rental_app.entity.UserEntity
 import com.example.house_rental_app.models.User
 
->>>>>>> 281f6c7 (User and Houses CRUD in Progress)
 
 
 @Composable
@@ -71,15 +67,9 @@ fun UserProfile(user: UserEntity, onUserUpdated: (UserEntity) -> Unit, navContro
                 editedUser.password = newValue
             }
 
-<<<<<<< HEAD
-//            UserDetail("UserID", if (editing) editedUser.id else user.id) { newValue ->
-//                editedUser.id = newValue.toInt()
-//            }
-=======
             UserDetail("Phone Number", if (editing) editedUser.phoneNumber else user.phoneNumber) { newValue ->
                 editedUser.phoneNumber = newValue
             }
->>>>>>> 281f6c7 (User and Houses CRUD in Progress)
 
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -161,13 +151,7 @@ private fun UserDetail(label: String, value: String, onValueChange: (String) -> 
 @Composable
 fun UserProfilePreview() {
     val navController = rememberNavController()
-<<<<<<< HEAD
     val user = UserEntity(emailId = "example@example.com", password =  "password123", id = 12, username = "Jane Doe", phoneNumber = "23", showOnlyEmail = true, showOnlyPhone = false )
-=======
-    val user = UserEntity(10, "","Asshole", "demo@gmail.com", "",
-        showOnlyEmail = true,
-        showOnlyPhone = true
-    )
->>>>>>> 281f6c7 (User and Houses CRUD in Progress)
+
     UserProfile(user = user, onUserUpdated = { /* Handle user update logic here */ }, navController = navController)
 }

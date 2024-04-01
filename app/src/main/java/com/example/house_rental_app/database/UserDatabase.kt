@@ -8,7 +8,7 @@ import com.example.house_rental_app.dao.UserDao
 import com.example.house_rental_app.entity.HouseEntity
 import com.example.house_rental_app.entity.UserEntity
 
-@Database(entities = [UserEntity::class, HouseEntity::class], version = 2, exportSchema = false)
+@Database(entities = [UserEntity::class, HouseEntity::class], version = 3, exportSchema = false)
 abstract class UserDatabase : RoomDatabase() {
 
     abstract fun userDao(): UserDao

@@ -114,6 +114,7 @@ class UserViewModel : ViewModel() {
         viewModelScope.launch {
             userRepository.updateUser(user)
             // Optionally post the updated user ID or trigger a UI state change
+            fetchUserById(user.id)
         }
     }
 }

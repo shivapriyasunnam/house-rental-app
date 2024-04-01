@@ -87,7 +87,9 @@ fun UserProfile(navController: NavController, sharedViewModel: SharedViewModel) 
 
                 if (editing) {
                     Button(onClick = {
-                        coroutineScope.launch { userViewModel.updateUser(editedUser)}
+                        coroutineScope.launch {
+                            Log.println(Log.INFO, "Edited user", editedUser.toString())
+                            userViewModel.updateUser(editedUser)}
                         editing = false
                     }) {
                         Text(text = "Save")

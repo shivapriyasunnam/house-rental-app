@@ -11,7 +11,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.house_rental_app.DatabaseApplication
 import com.example.house_rental_app.entity.UserEntity
-import com.example.house_rental_app.models.User
 import com.example.house_rental_app.repository.UserRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

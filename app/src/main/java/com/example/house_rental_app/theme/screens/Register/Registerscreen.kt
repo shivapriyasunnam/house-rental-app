@@ -1,5 +1,6 @@
 package com.example.house_rental_app.theme.screens.Register
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -205,6 +206,8 @@ fun RegisterScreen(navController: NavHostController){
                     val user = toUserEntity(email.text.trim(), pass.text.trim(), confirmpass.text.trim())
                     coroutineScope.launch {
                         userViewModel.registerUser(user)
+                        Toast.makeText(context, "Registration Complete", Toast.LENGTH_LONG).show()
+                        navController.navigate(ROUTE_LOGIN)
                     }
                 },
                 colors = ButtonDefaults.buttonColors(Color.Black),

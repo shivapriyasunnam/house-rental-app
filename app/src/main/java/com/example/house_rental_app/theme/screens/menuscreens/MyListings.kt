@@ -12,12 +12,15 @@ import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -31,6 +34,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -51,6 +55,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -58,14 +63,14 @@ import com.example.house_rental_app.R
 import com.example.house_rental_app.entity.HouseEntity
 import com.example.house_rental_app.data.HouseViewModel
 import com.example.house_rental_app.data.SharedViewModel
+import com.example.house_rental_app.theme.screens.LoadingPage
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyListings(navController: NavController, sharedViewModel: SharedViewModel) {
-    val context = LocalContext.current
-    val coroutineScope = rememberCoroutineScope()
 
     val houseViewModel: HouseViewModel = viewModel()
     val userId = sharedViewModel.userId.observeAsState().value.toString().toInt()
@@ -74,152 +79,194 @@ fun MyListings(navController: NavController, sharedViewModel: SharedViewModel) {
     }
     val allHouses by houseViewModel.allHouses.observeAsState(initial = emptyList())
     Log.println(Log.INFO, "", allHouses.toString())
+    var isLoading by remember { mutableStateOf(true) }
 
+    Log.println(Log.INFO, "", allHouses.toString())
+    LaunchedEffect(key1 = true) {
+        // Simulate a network loading delay or wait for a real network call
+        delay(3000) // Remove this line if you are observing real data changes
+        isLoading = false
+    }
     //Each Property Card
-    Column {
-        Spacer(modifier = Modifier.height(1.dp))
+    if (isLoading) {
+        LoadingPage("Fetching listings...")
+    }
+    else {
+        Column {
+            if (allHouses.isNotEmpty()) {
+                Spacer(modifier = Modifier.height(1.dp))
+                ScrollableListWithImages(
+                    houseEntities = allHouses,
+                    houseViewModel = houseViewModel,
+                    navController = navController
+                )
 
-        @SuppressLint("RememberReturnType")
-        @Composable
-        fun ImageListItem(
-            modifier: Modifier = Modifier,
-            houseEntity: HouseEntity,
-            onEditClick: () -> Unit,
-            onSaveClick: (HouseEntity) -> Unit
-        ) {
-            var isEditing by remember { mutableStateOf(false) }
-//            val trimmedImages = houseEntity.images.trimStart('[').trimEnd(']')
-//
-//            val imagesList: List<String> = trimmedImages.split(", ")
-            val imagePaths = houseEntity.images.split(",").map { it.trim() }
-//            val painter: Painter = painterResource(id = houseEntity.images.toInt())
-            Card(
-                modifier = modifier
-                    .padding(8.dp),
-                elevation = CardDefaults.cardElevation(4.dp)
-            ) {
-                Column(
-                    modifier = modifier.fillMaxWidth().clickable { },
-                    horizontalAlignment = Alignment.CenterHorizontally
+            }
+            else{
+                Box(
+                    modifier = Modifier.fillMaxSize(), // Fill the parent size to ensure the Box is as big as the screen
+                    contentAlignment = Alignment.Center // Align the content of the Box to the center
                 ) {
-
-                    LazyRow {
-                        items(imagePaths) { imagePath ->
-                            Card(
-                                modifier = Modifier
-                                    .padding(8.dp)
-                                    .width(200.dp),
-
-                            ) {
-//                                val uri = Uri.parse(imagePath)
-                                val bitmap = remember { loadBitmapFromFilePath(imagePath)}
-                                bitmap?.let {
-                                    Image(
-                                        bitmap = it.asImageBitmap(),
-                                        contentDescription = "Image",
-                                        contentScale = ContentScale.Crop,
-                                        modifier = Modifier.height(250.dp)
-                                            .fillMaxWidth()
-                                    )
-                                }
-                            }
-                        }
-                    }
-                    Spacer(modifier = Modifier.height(10.dp))
-
-                    if (isEditing) {
-                        var address by remember { mutableStateOf(houseEntity.address) }
-                        var leaseAvailability by remember { mutableStateOf(houseEntity.lease) }
-                        // TextFields for editing
-                        TextField(
-                            value = address,
-                            onValueChange = { address = it },
-                            label = { Text("Address") })
-                        TextField(
-                            value = leaseAvailability,
-                            onValueChange = { leaseAvailability = it },
-                            label = { Text("Lease Availability") })
-                        Button(onClick = {
-                            onSaveClick(
-                                //TODO EDIT OP
-                                houseEntity.copy(
-                                    address = address,
-                                    lease = leaseAvailability
-                                )
-                            )
-                            isEditing = false
-                        }) {
-                            Text("Save")
-                        }
-                    } else {
-                        // Display text with an edit button
-                        Text("Address: ${houseEntity.address}", textAlign = TextAlign.Center)
-                        Text(
-                            "Lease Available From: ${houseEntity.lease}",
-                            textAlign = TextAlign.Center
-                        )
-                        Row() {
-                            IconButton(onClick = { isEditing = true }) {
-                                Icon(Icons.Default.Edit, contentDescription = "Edit")
-                            }
-                            IconButton(onClick = {
-                                //TODO DELETE OP
-                                coroutineScope.launch{
-                                    houseViewModel.deleteHouse(houseEntity)
-                                }
-                                Toast.makeText(context, "Deleting your Listing..", Toast.LENGTH_LONG).show()
-
-                            }) {
-                                Icon(Icons.Default.Delete, contentDescription = "Edit")
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-
-        @Composable
-        fun ScrollableListWithImages(
-            houseEntities: List<HouseEntity>,
-            navController: NavController
-        ) {
-            LazyColumn {
-                items(houseEntities) { houseEntity ->
-                    ImageListItem(
-                        houseEntity = houseEntity,
-                        onEditClick = { /* Handle edit click */ },
-                        onSaveClick = { updatedDetails ->
-                            // Handle the save action, e.g., update the list or backend
-                            Log.d("EditProperty", "Saved: $updatedDetails")
-                        }
+                    Text(
+                        text = "No rentals posted yet!",
+                        fontSize = 24.sp
+                        // Additional Text styling here
                     )
-                    Spacer(modifier = Modifier.height(10.dp))
                 }
             }
         }
-
-
-
-
-
-        val image_list = listOf(
-            HouseEntity( address = "111 Main St", price = 234, ownerId = 23, lease = "April 1st 2022", images =
-            R.drawable.rentalfour.toString(), description = "A 2 bedroom" ),
-            HouseEntity( address = "111 Main St", price = 234, ownerId = 23, lease = "April 1st 2022", images =
-            R.drawable.rentalthree.toString(), description = "A 2 bedroom" ),
-            HouseEntity( address = "111 Main St", price = 234, ownerId = 23, lease = "April 1st 2022", images =
-            R.drawable.rentalnine.toString(), description = "A 2 bedroom" )
-        )
-
-        ScrollableListWithImages(
-            houseEntities = allHouses,
-            navController = navController
-        )
-
     }
 
 
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@SuppressLint("RememberReturnType")
+@Composable
+fun ImageListItem(
+    modifier: Modifier = Modifier,
+    houseEntity: HouseEntity,
+    houseViewModel: HouseViewModel,
+    onEditClick: () -> Unit,
+    onSaveClick: (HouseEntity) -> Unit
+) {
+    val context = LocalContext.current
+    var isEditing by remember { mutableStateOf(false) }
+//            val trimmedImages = houseEntity.images.trimStart('[').trimEnd(']')
+//
+//            val imagesList: List<String> = trimmedImages.split(", ")
+    val imagePaths = houseEntity.images.split(",").map { it.trim() }
+//            val painter: Painter = painterResource(id = houseEntity.images.toInt())
+    val coroutineScope = rememberCoroutineScope()
+
+    Card(
+        modifier = modifier
+            .padding(8.dp),
+        elevation = CardDefaults.cardElevation(4.dp)
+    ) {
+        Column(
+            modifier = modifier
+                .fillMaxWidth()
+                .clickable { },
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+
+            LazyRow {
+                items(imagePaths) { imagePath ->
+                    Card(
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .width(200.dp),
+
+                        ) {
+//                                val uri = Uri.parse(imagePath)
+                        val bitmap = remember { loadBitmapFromFilePath(imagePath)}
+                        bitmap?.let {
+                            Image(
+                                bitmap = it.asImageBitmap(),
+                                contentDescription = "Image",
+                                contentScale = ContentScale.Fit,
+                                modifier = Modifier
+                                    .size(250.dp)
+                                    .padding(4.dp)
+                            )
+                        }
+                    }
+                }
+            }
+            Spacer(modifier = Modifier.height(5.dp))
+            var address by remember { mutableStateOf(houseEntity.address) }
+            var leaseAvailability by remember { mutableStateOf(houseEntity.lease) }
+            var price by remember { mutableStateOf(houseEntity.price.toString()) }
+            if (isEditing) {
+
+                // TextFields for editing
+                TextField(
+                    value = address,
+                    onValueChange = { address = it },
+                    label = { Text("Address") })
+                TextField(
+                    value = leaseAvailability,
+                    onValueChange = { leaseAvailability = it },
+                    label = { Text("Lease Availability") })
+                TextField(
+                    value = price,
+                    onValueChange = { price = it},
+                    label = {Text("Price") })
+                Button(onClick = {
+                    onSaveClick(
+                        //TODO EDIT OP
+                        houseEntity.copy(
+                            houseId = houseEntity.houseId,
+                            address = address,
+                            lease = leaseAvailability,
+                            price = price.toInt()
+                        )
+                    )
+                    isEditing = false
+                }) {
+                    Text("Save")
+                }
+            } else {
+                // Display text with an edit button
+                Text(
+                    toAnnotatedText("Address:  ", address),
+                    textAlign = TextAlign.Start,
+                    style = MaterialTheme.typography.bodyLarge,
+                )
+                Text(
+                    toAnnotatedText("Lease Available From:  ", leaseAvailability),
+                    textAlign = TextAlign.Start,
+                    style = MaterialTheme.typography.bodyLarge,
+                )
+                Text(
+                    toAnnotatedText("Price:  ", price),
+                    textAlign = TextAlign.Start,
+                    style = MaterialTheme.typography.bodyLarge,
+                )
+                Row() {
+                    IconButton(onClick = { isEditing = true }) {
+                        Icon(Icons.Default.Edit, contentDescription = "Edit")
+                    }
+                    IconButton(onClick = {
+                        //TODO DELETE OP
+                        coroutineScope.launch{
+                            houseViewModel.deleteHouse(houseEntity)
+                        }
+                        Toast.makeText(context, "Deleting your Listing..", Toast.LENGTH_LONG).show()
+
+                    }) {
+                        Icon(Icons.Default.Delete, contentDescription = "Edit")
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun ScrollableListWithImages(
+    houseEntities: List<HouseEntity>,
+    houseViewModel: HouseViewModel,
+    navController: NavController
+) {
+    val coroutineScope = rememberCoroutineScope()
+    LazyColumn {
+        items(houseEntities) { houseEntity ->
+            ImageListItem(
+                houseEntity = houseEntity,
+                houseViewModel = houseViewModel,
+                onEditClick = { /* Handle edit click */ },
+                onSaveClick = { updatedDetails ->
+                    // Handle the save action, e.g., update the list or backend
+                    coroutineScope.launch {
+                        houseViewModel.editHouse(updatedDetails)
+                    }
+                    Log.d("EditProperty", "Saved: $updatedDetails")
+                }
+            )
+        }
+    }
 }
 fun loadBitmapFromUri(context: Context, uri: Uri): Bitmap? {
     return try{

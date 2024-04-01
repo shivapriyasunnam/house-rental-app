@@ -2,7 +2,6 @@ package com.example.house_rental_app.repository
 
 import com.example.house_rental_app.dao.UserDao
 import com.example.house_rental_app.entity.UserEntity
-import com.example.house_rental_app.models.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

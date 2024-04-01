@@ -122,6 +122,7 @@ fun AddProperty(navController: NavController, sharedViewModel: SharedViewModel) 
                 }
             }
             imagePaths = newImagePaths
+            imageCount = imagePaths.size
         }
     }
 
@@ -184,7 +185,7 @@ fun AddProperty(navController: NavController, sharedViewModel: SharedViewModel) 
                 modifier = Modifier
                     .padding(bottom = 8.dp)
                     .fillMaxWidth()
-                    .size(200.dp)
+                    .size(180.dp)
             )
             Button(onClick = {
                     /* TODO: Add code for upload images*/

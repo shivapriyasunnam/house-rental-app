@@ -40,7 +40,6 @@ import androidx.navigation.compose.rememberNavController
 import com.example.house_rental_app.data.SharedViewModel
 import com.example.house_rental_app.entity.UserEntity
 import com.example.house_rental_app.data.UserViewModel
-import com.example.house_rental_app.models.User
 import kotlinx.coroutines.launch
 
 

@@ -18,4 +18,6 @@ interface UserDao {
     suspend fun registerUser(user: UserEntity)
     @Update
     suspend fun updateUser(user: UserEntity)
+    @Query("SELECT * FROM user_table WHERE id = :userId")
+    suspend fun fetchUserById(userId: Int): UserEntity
 }

@@ -51,23 +51,24 @@ import com.example.house_rental_app.R
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import com.example.house_rental_app.data.AppViewModelProvider
+import com.example.house_rental_app.data.SharedViewModel
 import com.example.house_rental_app.data.UserViewModel
-import com.example.house_rental_app.navigation.ROUTE_BOOKING
-import com.example.house_rental_app.navigation.ROUTE_LOGIN
 import kotlinx.coroutines.launch
 
 import com.example.house_rental_app.navigation.ROUTE_ALL_LISTINGS
-import com.example.house_rental_app.navigation.ROUTE_LOGIN
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Loginscreen(navController: NavHostController) {
+fun Loginscreen(navController: NavHostController, sharedViewModel: SharedViewModel) {
     var email by remember { mutableStateOf(TextFieldValue("")) }
     var pass by remember { mutableStateOf(TextFieldValue("")) }
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
     val userViewModel: UserViewModel = viewModel(factory = AppViewModelProvider.Factory)
     val user by userViewModel.currentUser.observeAsState()
+
+//    val currentUserId by rememberUpdatedState(sharedViewModel.userId.value)
+
     var id by remember { mutableStateOf(0) }
     Box(
         modifier = Modifier.fillMaxSize()
@@ -177,17 +178,17 @@ fun Loginscreen(navController: NavHostController) {
 
     }
     LaunchedEffect(user){
-        if(user != null){
-            Log.println(Log.INFO, "Navigation", "Navigating to ROUTE_ALL_LISTINGS")
-            Log.println(Log.INFO, "ID ostunda choodu", user.toString())
-
-            navController.navigate(ROUTE_ALL_LISTINGS)
+        user?.let {
+            Log.println(Log.INFO, "Navigation", "Navigating to ROUTE_ALL_LISTINGS with User ID: $it")
+            sharedViewModel.setUserId(it.toString())
+            navController.navigate(ROUTE_ALL_LISTINGS) // Adjust based on your user ID type
         }
     }
 }
 
-@Preview
-@Composable
-fun LoginscreePreview(){
-    Loginscreen(rememberNavController())
-}
+//@Preview
+//@Composable
+//fun LoginscreePreview(){
+//    val sharedViewModel =
+//    Loginscreen(rememberNavController(), sharedViewModel)
+//}

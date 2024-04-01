@@ -21,5 +21,10 @@ interface UserRepository {
             userDao.userLogin(emailId, password)
         }
     }
+    suspend fun fetchUserById(userId: Int): UserEntity {
+        return withContext(Dispatchers.IO) {
+            userDao.fetchUserById(userId)
+        }
+    }
     suspend fun updateUser(user: UserEntity)
 }

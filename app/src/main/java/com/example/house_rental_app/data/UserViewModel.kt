@@ -21,6 +21,9 @@ class UserViewModel : ViewModel() {
     fun setUser(user: Int){
         _currentUser.value = user
     }
+    private val _userDetails = MutableLiveData<UserEntity?>()
+    val userDetails: LiveData<UserEntity?> = _userDetails
+
     private val userRepository: UserRepository by lazy {
         DatabaseApplication.container.userRepository
     }
@@ -73,6 +76,17 @@ class UserViewModel : ViewModel() {
         }
 //        }
         return user
+    }
+    fun fetchUserById(userId: Int) {
+        viewModelScope.launch {
+            try {
+                val user = userRepository.fetchUserById(userId) // Assuming this method exists
+                _userDetails.postValue(user) // Assuming UserEntity includes the user ID
+            } catch (e: Exception) {
+                Log.e("UserViewModel", "Error fetching user", e)
+                _userDetails.postValue(null)
+            }
+        }
     }
 
     /**

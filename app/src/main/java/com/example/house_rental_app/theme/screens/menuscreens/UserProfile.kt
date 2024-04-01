@@ -12,7 +12,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -27,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.house_rental_app.data.SharedViewModel
 import com.example.house_rental_app.entity.UserEntity
 import com.example.house_rental_app.data.UserViewModel
 import com.example.house_rental_app.models.User
@@ -34,11 +37,19 @@ import com.example.house_rental_app.models.User
 
 
 @Composable
-fun UserProfile(user: UserEntity, onUserUpdated: (UserEntity) -> Unit, navController: NavController) {
+fun UserProfile(navController: NavController, sharedViewModel: SharedViewModel) {
     var editing by remember { mutableStateOf(false) }
-    var editedUser by remember { mutableStateOf(user) }
-    val userViewModel: UserViewModel = viewModel()
+    val userId = sharedViewModel.userId.observeAsState().value.toString().toInt()
 
+    val userViewModel: UserViewModel = viewModel()
+    LaunchedEffect(userId) {
+        userId.let {
+            userViewModel.fetchUserById(it)
+        }
+    }
+    val userDetails by userViewModel.userDetails.observeAsState()
+    userDetails?.let { user ->
+        var editedUser by remember { mutableStateOf(user) }
     Column() {
 
 
@@ -67,7 +78,7 @@ fun UserProfile(user: UserEntity, onUserUpdated: (UserEntity) -> Unit, navContro
                 editedUser.password = newValue
             }
 
-            UserDetail("Phone Number", if (editing) editedUser.phoneNumber else user.phoneNumber) { newValue ->
+            UserDetail("Phone Number", if(editing) editedUser.phoneNumber else user.phoneNumber) { newValue ->
                 editedUser.phoneNumber = newValue
             }
 
@@ -76,7 +87,7 @@ fun UserProfile(user: UserEntity, onUserUpdated: (UserEntity) -> Unit, navContro
             if (editing) {
                 TextButton(onClick = {
                     userViewModel.updateUser(editedUser)
-                    onUserUpdated(editedUser)
+//                    onUserUpdated(editedUser)
                     editing = false
                 }) {
                     Text(text = "Save")
@@ -102,6 +113,9 @@ fun UserProfile(user: UserEntity, onUserUpdated: (UserEntity) -> Unit, navContro
             }
         }
     }
+    }?:run{
+        Text(text = "User not found or loading")
+    }
 }
 
 
@@ -123,7 +137,7 @@ private fun UserDetail(label: String, value: String, onValueChange: (String) -> 
             )
         } else {
 
-            if(label== "UserID"){
+            if(label== "Phone Number"){
                 TextField(
                     value = value,
                     onValueChange = { onValueChange(it) },
@@ -153,5 +167,5 @@ fun UserProfilePreview() {
     val navController = rememberNavController()
     val user = UserEntity(emailId = "example@example.com", password =  "password123", id = 12, username = "Jane Doe", phoneNumber = "23", showOnlyEmail = true, showOnlyPhone = false )
 
-    UserProfile(user = user, onUserUpdated = { /* Handle user update logic here */ }, navController = navController)
+    UserProfile(navController = navController, sharedViewModel = SharedViewModel())
 }

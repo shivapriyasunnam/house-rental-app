@@ -29,7 +29,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -45,20 +44,17 @@ import androidx.navigation.compose.rememberNavController
 import com.example.house_rental_app.R
 import com.example.house_rental_app.entity.HouseEntity
 import com.example.house_rental_app.data.HouseViewModel
-import com.example.house_rental_app.data.PropertyDetails
-import com.example.house_rental_app.navigation.ROUTE_ALL_LISTINGS
-import com.example.house_rental_app.navigation.ROUTE_DETAILED_PROPERTY
-import com.example.house_rental_app.navigation.ROUTE_MY_LISTINGS
+import com.example.house_rental_app.data.SharedViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyListings(navController: NavController) {
+fun MyListings(navController: NavController, sharedViewModel: SharedViewModel) {
     val context = LocalContext.current
 
     val houseViewModel: HouseViewModel = viewModel()
-
-    LaunchedEffect(key1 = 10) {
-        houseViewModel.viewHousesByOwnerId(10)
+    val userId = sharedViewModel.userId.observeAsState().value.toString().toInt()
+    LaunchedEffect(key1 = userId) {
+        houseViewModel.viewHousesByOwnerId(userId)
     }
     val allHouses by houseViewModel.allHouses.observeAsState(initial = emptyList())
     Log.println(Log.INFO, "", allHouses.toString())
@@ -185,9 +181,9 @@ fun MyListings(navController: NavController) {
 }
 
 
-@Preview(showBackground = true)
-@Composable
-fun MyListingsPreview() {
-    val navController = rememberNavController()
-    MyListings(navController = navController)
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun MyListingsPreview() {
+//    val navController = rememberNavController()
+//    MyListings(navController = navController, sharedViewModel = sharedViewModel)
+//}

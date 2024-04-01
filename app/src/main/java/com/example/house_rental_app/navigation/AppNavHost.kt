@@ -1,9 +1,11 @@
 package com.example.house_rental_app.navigation
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -13,8 +15,7 @@ import com.example.house_rental_app.R
 import com.example.house_rental_app.entity.HouseEntity
 import com.example.house_rental_app.entity.UserEntity
 
-import com.example.house_rental_app.data.PropertyDetails
-import com.example.house_rental_app.models.User
+import com.example.house_rental_app.data.SharedViewModel
 import com.example.house_rental_app.theme.screens.Register.NewRegisterScreen
 import com.example.house_rental_app.theme.screens.Register.RegisterScreen
 import com.example.house_rental_app.theme.screens.contactus.ContactUs
@@ -33,7 +34,9 @@ import com.example.house_rental_app.theme.screens.property.DetailedProperty
 import com.example.house_rental_app.theme.screens.property.ContactLandlord
 
 @Composable
-fun AppNavHost(modifier: Modifier = Modifier, navController: NavHostController = rememberNavController(), startDestination:String= ROUTE_HOME, paddingValues: PaddingValues) {
+fun AppNavHost(modifier: Modifier = Modifier, navController: NavHostController = rememberNavController(), startDestination:String= ROUTE_HOME, paddingValues: PaddingValues, sharedViewModel: SharedViewModel) {
+    val userId = sharedViewModel.userId.observeAsState()
+    Log.println(Log.INFO, "UserId Nav Check", userId.value.toString())
 
     NavHost(
         navController = navController,
@@ -41,7 +44,7 @@ fun AppNavHost(modifier: Modifier = Modifier, navController: NavHostController =
         startDestination = startDestination
     ) {
         composable(ROUTE_LOGIN) {
-            Loginscreen(navController)
+            Loginscreen(navController, sharedViewModel)
         }
         composable(ROUTE_REGISTER) {
             RegisterScreen(navController)
@@ -77,28 +80,24 @@ fun AppNavHost(modifier: Modifier = Modifier, navController: NavHostController =
             NewRegisterScreen(navController)
         }
         composable(ROUTE_ALL_LISTINGS) {
+            // Extracting the argument
             Box(modifier = Modifier.padding(paddingValues)) {
-                AllListings(navController)
+                AllListings(navController, sharedViewModel)
             }
         }
 
         composable(ROUTE_MY_LISTINGS) {
             Box(modifier = Modifier.padding(paddingValues)) {
-                MyListings(navController)
+                MyListings(navController, sharedViewModel)
             }
         }
         composable(ROUTE_USER_PROFILE) {
             Box(modifier = Modifier.padding(paddingValues)) {
 
-//            val user = User("example@example.com", "password123", "12345")
-            val user = UserEntity(10, "","Asshole", "demo@gmail.com", "",
-                showOnlyEmail = true,
-                showOnlyPhone = true
-            )
+
             UserProfile(
-                user = user,
-                onUserUpdated = { /* Handle user update logic here */ },
-                navController = navController
+                navController = navController,
+                sharedViewModel = sharedViewModel
             )
         }}
 
@@ -119,7 +118,7 @@ fun AppNavHost(modifier: Modifier = Modifier, navController: NavHostController =
 
         composable(ROUTE_ADD_PROPERTY) {
             Box(modifier = Modifier.padding(paddingValues)) {
-                AddProperty(navController)
+                AddProperty(navController, sharedViewModel)
             }
         }
         composable(ROUTE_CONTACT_LANDLORD){

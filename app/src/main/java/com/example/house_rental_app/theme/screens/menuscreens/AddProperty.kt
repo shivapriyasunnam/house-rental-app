@@ -2,29 +2,16 @@ package com.example.house_rental_app.theme.screens.menuscreens
 
 import android.util.Log
 import android.widget.Toast
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -35,33 +22,25 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.house_rental_app.R
 
-import com.example.house_rental_app.data.AppViewModelProvider
 import com.example.house_rental_app.data.HouseViewModel
-import com.example.house_rental_app.data.PropertyDetails
+import com.example.house_rental_app.data.SharedViewModel
 import com.example.house_rental_app.data.UserViewModel
 import com.example.house_rental_app.entity.HouseEntity
-import com.example.house_rental_app.navigation.ROUTE_DETAILED_PROPERTY
 import com.example.house_rental_app.navigation.ROUTE_MY_LISTINGS
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
-import java.io.File
 
 // Include MenuBar in your AddProperty composable
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddProperty(navController: NavController) {
+fun AddProperty(navController: NavController, sharedViewModel: SharedViewModel) {
     val context = LocalContext.current
     val userViewModel: UserViewModel = viewModel()
     val user by userViewModel.currentUser.observeAsState()
@@ -73,7 +52,9 @@ fun AddProperty(navController: NavController) {
     var price by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
     val coroutineScope = rememberCoroutineScope()
-    Log.println(Log.INFO, "Dengey", user.toString())
+    val userId = sharedViewModel.userId.observeAsState()
+    Log.println(Log.INFO, "Dengey", userId.value.toString())
+
 
     Column() {
 
@@ -153,16 +134,19 @@ fun AddProperty(navController: NavController) {
 //                    val details =
 //                        "Image ID: $imageId, Address: $address, Lease: $leaseAvailability, Bedrooms: $bedrooms, Bathrooms: $bathrooms"
 //                    Log.println(Log.INFO, "Dengey", currentUser.value.toString())
-                    val propertyDetails = HouseEntity(ownerId = 10,
+                    val propertyDetails =
+                        HouseEntity(ownerId = userId.value.toString().toInt(),
                             price = price.toInt(),
                             address = address,
                             images = "",
                             description =  description,
                             lease = ""
-                    )
+                        )
+
 
                     coroutineScope.launch {
-                        houseViewModel.addHouse(propertyDetails)
+                            houseViewModel.addHouse(propertyDetails)
+
                     }
 
                     Toast.makeText(context, "Added to Listing", Toast.LENGTH_LONG).show()
@@ -182,9 +166,9 @@ fun AddProperty(navController: NavController) {
 }
 
 
-@Preview(showBackground = true)
-@Composable
-fun AddPropertyPreview() {
-    val navController = rememberNavController()
-    AddProperty(navController = navController)
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun AddPropertyPreview() {
+//    val navController = rememberNavController()
+//    AddProperty(navController = navController, sharedViewModel = sharedViewModel)
+//}

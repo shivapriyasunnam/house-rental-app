@@ -12,44 +12,36 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.house_rental_app.R
 import com.example.house_rental_app.data.HouseViewModel
-import com.example.house_rental_app.data.PropertyDetails
+import com.example.house_rental_app.data.SharedViewModel
 import com.example.house_rental_app.data.UserViewModel
 import com.example.house_rental_app.entity.HouseEntity
-import com.example.house_rental_app.entity.UserEntity
-import com.example.house_rental_app.navigation.ROUTE_ALL_LISTINGS
 import com.example.house_rental_app.navigation.ROUTE_DETAILED_PROPERTY
-import com.example.house_rental_app.navigation.ROUTE_LOGIN
-import java.util.concurrent.Flow
 
 @Composable
-fun AllListings(navController: NavController) {
+fun AllListings(navController: NavController, sharedViewModel: SharedViewModel) {
 
     val userViewModel: UserViewModel = viewModel()
-    val user = userViewModel.currentUser.value
+    val user by userViewModel.currentUser.observeAsState()
     Log.println(Log.INFO, "",user.toString())
     val houseViewModel: HouseViewModel = viewModel()
     val allHouses by houseViewModel.allHouses.observeAsState(emptyList())
@@ -90,7 +82,8 @@ fun AllListings(navController: NavController) {
                         contentDescription = null,
                         modifier = Modifier
                             .height(200.dp)
-                            .fillMaxWidth().border(border = BorderStroke(2.dp, Color.White))
+                            .fillMaxWidth()
+                            .border(border = BorderStroke(2.dp, Color.White))
                     )
                     Spacer(modifier = Modifier.height(10.dp))
                     Text(
@@ -174,5 +167,6 @@ fun AllListings(navController: NavController) {
 @Composable
 fun AllListingsPreview() {
     val navController = rememberNavController()
-    AllListings(navController = navController)
+    val sharedViewModel = SharedViewModel().apply { setUserId("") }
+    AllListings(navController = navController, sharedViewModel = sharedViewModel)
 }

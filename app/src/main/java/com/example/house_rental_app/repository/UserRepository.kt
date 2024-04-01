@@ -26,5 +26,9 @@ interface UserRepository {
             userDao.fetchUserById(userId)
         }
     }
-    suspend fun updateUser(user: UserEntity)
+    suspend fun updateUser(user: UserEntity){
+        withContext(Dispatchers.IO) {
+            userDao.updateUser(user)
+        }
+    }
 }

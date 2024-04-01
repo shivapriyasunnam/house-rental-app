@@ -40,10 +40,9 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun UserProfile(navController: NavController, sharedViewModel: SharedViewModel) {
-    val coroutineScope = rememberCoroutineScope()
     var editing by remember { mutableStateOf(false) }
     val userId = sharedViewModel.userId.observeAsState().value.toString().toInt()
-
+    val coroutineScope = rememberCoroutineScope()
     val userViewModel: UserViewModel = viewModel()
     LaunchedEffect(userId) {
         userId.let {
@@ -96,6 +95,7 @@ fun UserProfile(navController: NavController, sharedViewModel: SharedViewModel) 
                 } else {
                 Button(
                     onClick = { editing = true },
+
                     modifier = Modifier
                         .border(
                             width = 1.dp,
@@ -142,6 +142,7 @@ private fun UserDetail(
             )
         } else {
             Text(text = value, style = MaterialTheme.typography.bodyLarge)
+
         }
     }
 }

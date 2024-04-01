@@ -75,7 +75,7 @@ fun AllListings(navController: NavController, sharedViewModel: SharedViewModel) 
     if (isLoading) {
         LoadingPage("Fetching listings...")
     } else {
-        Column {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
             if(allHouses.isEmpty()) {
                 Box(
@@ -93,6 +93,12 @@ fun AllListings(navController: NavController, sharedViewModel: SharedViewModel) 
             else {
                 // Spacer to add some space between menu bar and list
                 Spacer(modifier = Modifier.height(1.dp))
+                Text(
+                    text = "All Listings",
+                    style = MaterialTheme.typography.titleLarge,
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.Bold
+                )
                 ScrollableListWithImagesAll(
                     houseEntities = allHouses,
                     navController = navController
@@ -134,7 +140,8 @@ fun ImageListItemAll(
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier
+                .padding(16.dp)
                 .fillMaxWidth()
         ) {
             LazyRow {

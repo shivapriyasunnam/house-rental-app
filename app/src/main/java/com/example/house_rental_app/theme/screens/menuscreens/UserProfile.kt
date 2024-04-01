@@ -29,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -77,6 +78,7 @@ fun UserProfile(navController: NavController, sharedViewModel: SharedViewModel) 
                         Spacer(modifier = Modifier.height(16.dp))
                         Text(
                             text = "My Profile", style = MaterialTheme.typography.titleLarge,
+                            fontWeight = FontWeight.Bold,
                             fontSize = 25.sp,
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -85,7 +87,7 @@ fun UserProfile(navController: NavController, sharedViewModel: SharedViewModel) 
                         )
                     }
 
-                    Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(25.dp))
 
                     UserDetail(
                         "Email", if (editing) editedUser.emailId else user.emailId,
@@ -116,10 +118,11 @@ fun UserProfile(navController: NavController, sharedViewModel: SharedViewModel) 
                         isEditable = editing
                     )
 
-                    Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(20.dp))
 
                     if (editing) {
-                        Button(onClick = {
+                        Button(modifier = Modifier.padding(horizontal = 19.dp, vertical = 2.dp),
+                            onClick = {
                             coroutineScope.launch { userViewModel.updateUser(editedUser) }
                             editing = false
                         }) {
@@ -162,7 +165,7 @@ private fun UserDetail(
 
 
             Text(
-                text = "$label ", style = MaterialTheme.typography.bodyLarge,
+                text = "$label ", style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Bold
             )
             if (isEditable) {
                 Column {

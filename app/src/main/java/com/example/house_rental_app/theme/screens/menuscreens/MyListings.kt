@@ -52,6 +52,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -92,9 +93,16 @@ fun MyListings(navController: NavController, sharedViewModel: SharedViewModel) {
         LoadingPage("Fetching listings...")
     }
     else {
-        Column {
+
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
             if (allHouses.isNotEmpty()) {
                 Spacer(modifier = Modifier.height(1.dp))
+                Text(
+                    text = "My Listings",
+                    style = MaterialTheme.typography.titleLarge,
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.Bold
+                )
                 ScrollableListWithImages(
                     houseEntities = allHouses,
                     houseViewModel = houseViewModel,

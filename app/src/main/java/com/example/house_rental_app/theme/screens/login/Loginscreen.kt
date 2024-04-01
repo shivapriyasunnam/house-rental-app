@@ -68,7 +68,7 @@ fun Loginscreen(navController: NavHostController) {
     val coroutineScope = rememberCoroutineScope()
     val userViewModel: UserViewModel = viewModel(factory = AppViewModelProvider.Factory)
     val user by userViewModel.currentUser.observeAsState()
-
+    var id by remember { mutableStateOf(0) }
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -144,14 +144,9 @@ fun Loginscreen(navController: NavHostController) {
 
             Button(
                 onClick = {
-//                    val yyy = AuthViewModel(navController, context)
-//                    yyy.login(email.text.trim(), pass.text.trim())
-//                    val x = userViewModel.userLogin(email.text.trim(), pass.text.trim())
                     coroutineScope.launch {
                         userViewModel.loginUser(email.text.trim(), pass.text.trim())
                     }
-//                    navController.navigate(ROUTE_ALL_LISTINGS)
-
                 },
                 colors = ButtonDefaults.buttonColors(Color.Black),
                 modifier = Modifier
@@ -182,8 +177,10 @@ fun Loginscreen(navController: NavHostController) {
 
     }
     LaunchedEffect(user){
-        user?.let{
+        if(user != null){
             Log.println(Log.INFO, "Navigation", "Navigating to ROUTE_ALL_LISTINGS")
+            Log.println(Log.INFO, "ID ostunda choodu", user.toString())
+
             navController.navigate(ROUTE_ALL_LISTINGS)
         }
     }

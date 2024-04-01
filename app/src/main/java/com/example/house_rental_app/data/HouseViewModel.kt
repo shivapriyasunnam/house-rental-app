@@ -1,6 +1,8 @@
 package com.example.house_rental_app.data
 
 import android.content.Context
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.house_rental_app.DatabaseApplication
@@ -9,16 +11,25 @@ import com.example.house_rental_app.repository.HouseRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class HouseViewModel() : ViewModel() {
+    private val _allHouses = MutableLiveData<List<HouseEntity>>()
+    val allHouses: LiveData<List<HouseEntity>> get() = _allHouses
 
     private val houseRepository : HouseRepository by lazy{
         DatabaseApplication.container.houseRepository
     }
-
+    init {
+        viewModelScope.launch(Dispatchers.IO) {
+            houseRepository.viewAllHouses().collect { housesList ->
+                _allHouses.postValue(housesList)
+            }
+        }
+    }
     // Function to add a new house
-    fun addHouse(house: HouseEntity) {
+    suspend fun addHouse(house: HouseEntity) {
         viewModelScope.launch(Dispatchers.IO) {
             houseRepository.addHouse(house)
         }
@@ -32,12 +43,12 @@ class HouseViewModel() : ViewModel() {
     }
 
     // Function to retrieve all houses based on owner ID
-    suspend fun viewAllHousesBasedOnOwnerID(userId: Int): Flow<List<HouseEntity>> {
-        var allHouses = emptyFlow<List<HouseEntity>>()
+    fun viewHousesByOwnerId(userId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-             allHouses = houseRepository.viewAllHousesBasedOnOwnerID(userId)
+            houseRepository.viewAllHousesBasedOnOwnerID(userId).collect { housesList ->
+                _allHouses.postValue(housesList)
+            }
         }
-        return allHouses
     }
 
     // Function to edit house details
@@ -46,4 +57,11 @@ class HouseViewModel() : ViewModel() {
             houseRepository.editHouse(house)
         }
     }
+//    fun viewAllHouses(): Flow<List<HouseEntity>>{
+//        val houses = emptyFlow<List<HouseEntity>>()
+//        viewModelScope.launch(Dispatchers.IO){
+//            houseRepository.viewAllHouses()
+//        }
+//        return houses
+//    }
 }

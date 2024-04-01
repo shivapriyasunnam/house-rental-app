@@ -35,6 +35,11 @@ interface HouseRepository {
             houseDao.editHouse(house)
         }
     }
+    suspend fun viewAllHouses(): Flow<List<HouseEntity>>{
+        return withContext(Dispatchers.IO){
+            houseDao.viewAllHouses()
+        }
+    }
 
     // You can define other functions for house-related operations here
 }

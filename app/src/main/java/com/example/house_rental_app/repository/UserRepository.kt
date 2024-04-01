@@ -16,10 +16,10 @@ interface UserRepository {
         }
     }
 
-    suspend fun userLogin(emailId: String, password: String): UserEntity?{
+    suspend fun userLogin(emailId: String, password: String): Int{
         return withContext(Dispatchers.IO) {
             userDao.userLogin(emailId, password)
         }
     }
-
+    suspend fun updateUser(user: UserEntity)
 }

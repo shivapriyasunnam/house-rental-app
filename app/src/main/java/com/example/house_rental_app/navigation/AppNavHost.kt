@@ -12,6 +12,9 @@ import androidx.navigation.compose.rememberNavController
 import com.example.house_rental_app.R
 import com.example.house_rental_app.entity.HouseEntity
 import com.example.house_rental_app.entity.UserEntity
+
+import com.example.house_rental_app.data.PropertyDetails
+import com.example.house_rental_app.models.User
 import com.example.house_rental_app.theme.screens.Register.NewRegisterScreen
 import com.example.house_rental_app.theme.screens.Register.RegisterScreen
 import com.example.house_rental_app.theme.screens.contactus.ContactUs
@@ -86,15 +89,18 @@ fun AppNavHost(modifier: Modifier = Modifier, navController: NavHostController =
         }
         composable(ROUTE_USER_PROFILE) {
             Box(modifier = Modifier.padding(paddingValues)) {
-                val user =  UserEntity(emailId = "example@example.com", password =  "password123", id = 12, username = "Jane Doe", phoneNumber = "23", showOnlyEmail = true, showOnlyPhone = false )
 
-                UserProfile(
-                    user = user,
-                    onUserUpdated = { /* Handle user update logic here */ },
-                    navController = navController
-                )
-            }
-        }
+//            val user = User("example@example.com", "password123", "12345")
+            val user = UserEntity(10, "","Asshole", "demo@gmail.com", "",
+                showOnlyEmail = true,
+                showOnlyPhone = true
+            )
+            UserProfile(
+                user = user,
+                onUserUpdated = { /* Handle user update logic here */ },
+                navController = navController
+            )
+        }}
 
 
         composable(ROUTE_DETAILED_PROPERTY+ "/{id}") {

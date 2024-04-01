@@ -16,9 +16,9 @@ import com.example.house_rental_app.repository.UserRepository
 import kotlinx.coroutines.launch
 
 class UserViewModel : ViewModel() {
-    private val _currentUser = MutableLiveData<UserEntity?>()
-    val currentUser: LiveData<UserEntity?> = _currentUser
-    fun setUser(user: UserEntity?){
+    private val _currentUser = MutableLiveData<Int>()
+    val currentUser: LiveData<Int> = _currentUser
+    fun setUser(user: Int){
         _currentUser.value = user
     }
     private val userRepository: UserRepository by lazy {
@@ -55,22 +55,24 @@ class UserViewModel : ViewModel() {
     /**
      * Logs in the user if the input is valid.
      */
-    fun loginUser(email: String, password: String): UserEntity? {
+    suspend fun loginUser(email: String, password: String): Int {
 //        if (validateInput()) {
             // Logic to handle user login
+        var user = 0
         viewModelScope.launch {
-            Log.println(Log.INFO, "Modda Login aindu", "Noice")
-            val user = userRepository.userLogin(email, password)
-            if(user != null){
+            try{
+                user = userRepository.userLogin(email, password)
+                _currentUser.postValue(user) // Use postValue for thread-safety
                 _currentUser.value = user
+                Log.println(Log.INFO, "Yo", user.toString())
+            } catch (e: Exception) {
+                Log.e("UserViewModel", "Error logging in", e)
+                _currentUser.postValue(null)
             }
-            else{
-                _currentUser.value = null
-            }
-            Log.println(Log.INFO, "Modda Login aindu", user.toString())
+
         }
 //        }
-        return null
+        return user
     }
 
     /**
@@ -79,6 +81,12 @@ class UserViewModel : ViewModel() {
     private fun validateInput(uiState: UserDetails = userUiState.userDetails): Boolean {
         return with(uiState) {
             username.isNotBlank() && password.isNotBlank() && email.isNotBlank()
+        }
+    }
+    fun updateUser(user: UserEntity) {
+        viewModelScope.launch {
+            userRepository.updateUser(user)
+            // Optionally post the updated user ID or trigger a UI state change
         }
     }
 }

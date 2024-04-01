@@ -28,8 +28,10 @@ import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,16 +42,23 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.house_rental_app.R
+<<<<<<< HEAD
 
+=======
+import com.example.house_rental_app.data.AppViewModelProvider
+>>>>>>> 281f6c7 (User and Houses CRUD in Progress)
 import com.example.house_rental_app.data.HouseViewModel
 import com.example.house_rental_app.data.PropertyDetails
 import com.example.house_rental_app.data.UserViewModel
 import com.example.house_rental_app.entity.HouseEntity
 import com.example.house_rental_app.navigation.ROUTE_DETAILED_PROPERTY
 import com.example.house_rental_app.navigation.ROUTE_MY_LISTINGS
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import java.io.File
 
 // Include MenuBar in your AddProperty composable
@@ -57,14 +66,17 @@ import java.io.File
 @Composable
 fun AddProperty(navController: NavController) {
     val context = LocalContext.current
-    val currentUser = UserViewModel().currentUser
-    val houseViewModel = HouseViewModel()
+    val userViewModel: UserViewModel = viewModel()
+    val user by userViewModel.currentUser.observeAsState()
+    val houseViewModel : HouseViewModel = viewModel()
     // State for each property detail
     var imageId by remember { mutableStateOf("") }
     var address by remember { mutableStateOf("") }
     var leaseAvailability by remember { mutableStateOf("") }
     var price by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
+    val coroutineScope = rememberCoroutineScope()
+    Log.println(Log.INFO, "Dengey", user.toString())
 
     Column() {
 
@@ -143,15 +155,22 @@ fun AddProperty(navController: NavController) {
                     // Note: Make sure to validate and convert numeric fields appropriately
 //                    val details =
 //                        "Image ID: $imageId, Address: $address, Lease: $leaseAvailability, Bedrooms: $bedrooms, Bathrooms: $bathrooms"
-                    val propertyDetails = currentUser.value?.let {
-                        HouseEntity(
-                            ownerId = it.id,
+//                    Log.println(Log.INFO, "Dengey", currentUser.value.toString())
+                    val propertyDetails = HouseEntity(ownerId = 10,
                             price = price.toInt(),
                             address = address,
                             images = "",
                             description =  description,
+<<<<<<< HEAD
                             lease = ""
                             )
+=======
+                            utilities = ""
+                    )
+
+                    coroutineScope.launch {
+                        houseViewModel.addHouse(propertyDetails)
+>>>>>>> 281f6c7 (User and Houses CRUD in Progress)
                     }
 
                     Toast.makeText(context, "Added to Listing", Toast.LENGTH_LONG).show()

@@ -22,4 +22,7 @@ interface HouseDao {
 
     @Update
     suspend fun editHouse(house: HouseEntity)
+
+    @Query("SELECT * FROM house_table")
+    fun viewAllHouses(): Flow<List<HouseEntity>>
 }

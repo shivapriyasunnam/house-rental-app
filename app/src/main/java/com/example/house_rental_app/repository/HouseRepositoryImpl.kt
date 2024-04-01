@@ -18,6 +18,10 @@ class HouseRepositoryImpl(override val houseDao: HouseDao): HouseRepository {
         super.editHouse(house)
     }
 
+    override suspend fun viewAllHouses(): Flow<List<HouseEntity>> {
+        return super.viewAllHouses()
+    }
+
     override suspend fun viewAllHousesBasedOnOwnerID(userId: Int): Flow<List<HouseEntity>> {
         return super.viewAllHousesBasedOnOwnerID(userId)
     }

@@ -1,18 +1,22 @@
 package com.example.house_rental_app.theme.screens.menuscreens
 
+import android.graphics.fonts.FontStyle
 import android.util.Log
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -26,8 +30,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -53,67 +59,88 @@ fun UserProfile(navController: NavController, sharedViewModel: SharedViewModel) 
     userDetails?.let { user ->
         var editedUser by remember { mutableStateOf(user) } // Remember the edited user state
         Column() {
-            Spacer(modifier = Modifier.height(30.dp))
+            Spacer(modifier = Modifier.height(20.dp))
 
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.padding(horizontal = 15.dp)
+
+            Card(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth(),
+                border = BorderStroke(2.dp, Color.White),
             ) {
-                Text(text = "User Profile", style = MaterialTheme.typography.bodyLarge)
-                Spacer(modifier = Modifier.height(16.dp))
 
-                UserDetail("Email", if (editing) editedUser.emailId else user.emailId,
-                    onValueChange = { newValue ->
-                        editedUser = editedUser.copy(emailId = newValue) // Update edited user
-                    },
-                    isEditable = editing
-                )
 
-                UserDetail("Password", if (editing) editedUser.password else "*****",
-                    onValueChange = { newValue ->
-                        editedUser = editedUser.copy(password = newValue) // Update edited user
-                    },
-                    isEditable = false // Password should not be editable
-                )
-
-                UserDetail("Phone Number", if (editing) editedUser.phoneNumber else user.phoneNumber,
-                    onValueChange = { newValue ->
-                        editedUser = editedUser.copy(phoneNumber = newValue) // Update edited user
-                    },
-                    isEditable = editing
-                )
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                if (editing) {
-                    Button(onClick = {
-                        coroutineScope.launch {
-                            Log.println(Log.INFO, "Edited user", editedUser.toString())
-                            userViewModel.updateUser(editedUser)}
-                        editing = false
-                    }) {
-                        Text(text = "Save")
-                    }
-                } else {
-                Button(
-                    onClick = { editing = true },
-
-                    modifier = Modifier
-                        .border(
-                            width = 1.dp,
-                            color = Color.Black,
-                            shape = RoundedCornerShape(4.dp)
-                        )
-                        .background(Color.LightGray)
-                        .padding(horizontal = 19.dp, vertical = 2.dp),
-                    // Add any additional styling here if needed
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
                 ) {
-                    Text(
-                        text = "Edit",
-                        style = TextStyle(color = Color.Black)
+                    Column(modifier = Modifier.fillMaxWidth()) {
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Text(
+                            text = "My Profile", style = MaterialTheme.typography.titleLarge,
+                            fontSize = 25.sp,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(Color.White),
+                            textAlign = TextAlign.Center
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    UserDetail(
+                        "Email", if (editing) editedUser.emailId else user.emailId,
+                        onValueChange = { newValue ->
+                            editedUser = editedUser.copy(emailId = newValue) // Update edited user
+                        },
+                        isEditable = false
                     )
+
+                    Spacer(modifier = Modifier.height(10.dp))
+
+                    UserDetail(
+                        "Password", if (editing) editedUser.password else "*****",
+                        onValueChange = { newValue ->
+                            editedUser = editedUser.copy(password = newValue) // Update edited user
+                        },
+                        isEditable = false // Password should not be editable
+                    )
+
+                    Spacer(modifier = Modifier.height(10.dp))
+
+                    UserDetail(
+                        "Phone Number", if (editing) editedUser.phoneNumber else user.phoneNumber,
+                        onValueChange = { newValue ->
+                            editedUser =
+                                editedUser.copy(phoneNumber = newValue) // Update edited user
+                        },
+                        isEditable = editing
+                    )
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    if (editing) {
+                        Button(onClick = {
+                            coroutineScope.launch { userViewModel.updateUser(editedUser) }
+                            editing = false
+                        }) {
+                            Text(text = "Save")
+                        }
+                    } else {
+                        Button(
+                            onClick = { editing = true },
+                            modifier = Modifier
+                                .padding(horizontal = 19.dp, vertical = 2.dp),
+                            // Add any additional styling here if needed
+                        ) {
+                            Text(
+                                text = "Edit",
+                            )
+                        }
+
+                        Spacer(modifier = Modifier.height(20.dp))
+                    }
                 }
-            }
             }
         }
     } ?: run {
@@ -131,29 +158,38 @@ private fun UserDetail(
     onValueChange: (String) -> Unit,
     isEditable: Boolean
 ) {
-    Column(
-        modifier = Modifier.padding(vertical = 8.dp)
+    Column( horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "$label: ", style = MaterialTheme.typography.bodyLarge, modifier = Modifier.padding(horizontal = 100.dp).align(Alignment.CenterHorizontally))
-        if (isEditable) {
-            TextField(
-                value = value,
-                onValueChange = onValueChange,
-                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
-                modifier = Modifier.fillMaxWidth()
-            )
-        } else {
-            Text(text = value, style = MaterialTheme.typography.bodyLarge)
 
-        }
+
+            Text(
+                text = "$label ", style = MaterialTheme.typography.bodyLarge,
+            )
+            if (isEditable) {
+                Column {
+                    TextField(
+                        value = value,
+                        onValueChange = onValueChange,
+                        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
+                        textStyle = TextStyle(color = Color.Black, textAlign = TextAlign.Center, fontSize = 20.sp),
+                    )
+                }
+
+            } else {
+                var value2 = value
+                if (value2 == "") {
+                    value2 = "Not Provided"
+                }
+                TextField(
+                    value = value2,
+                    enabled = false,
+                    onValueChange = {},
+                    textStyle = TextStyle(color = Color.Black, textAlign = TextAlign.Center, fontSize = 20.sp),
+                )
+
+            }
     }
 }
 
 
-@Preview(showBackground = true)
-@Composable
-fun UserProfilePreview() {
-    val navController = rememberNavController()
-    val sharedViewModel = SharedViewModel().apply { setUserId("8") }
-    UserProfile(navController = navController, sharedViewModel = sharedViewModel)
-}
+

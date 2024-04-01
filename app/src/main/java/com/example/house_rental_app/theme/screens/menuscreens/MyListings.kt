@@ -1,5 +1,13 @@
 package com.example.house_rental_app.theme.screens.menuscreens
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.ImageDecoder
+import android.net.Uri
+import android.os.Build
+import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -10,7 +18,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
@@ -30,9 +40,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
@@ -45,11 +58,14 @@ import com.example.house_rental_app.R
 import com.example.house_rental_app.entity.HouseEntity
 import com.example.house_rental_app.data.HouseViewModel
 import com.example.house_rental_app.data.SharedViewModel
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyListings(navController: NavController, sharedViewModel: SharedViewModel) {
     val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
 
     val houseViewModel: HouseViewModel = viewModel()
     val userId = sharedViewModel.userId.observeAsState().value.toString().toInt()
@@ -63,6 +79,7 @@ fun MyListings(navController: NavController, sharedViewModel: SharedViewModel) {
     Column {
         Spacer(modifier = Modifier.height(1.dp))
 
+        @SuppressLint("RememberReturnType")
         @Composable
         fun ImageListItem(
             modifier: Modifier = Modifier,
@@ -71,7 +88,11 @@ fun MyListings(navController: NavController, sharedViewModel: SharedViewModel) {
             onSaveClick: (HouseEntity) -> Unit
         ) {
             var isEditing by remember { mutableStateOf(false) }
-            val painter: Painter = painterResource(id = houseEntity.images.toInt())
+//            val trimmedImages = houseEntity.images.trimStart('[').trimEnd(']')
+//
+//            val imagesList: List<String> = trimmedImages.split(", ")
+            val imagePaths = houseEntity.images.split(",").map { it.trim() }
+//            val painter: Painter = painterResource(id = houseEntity.images.toInt())
             Card(
                 modifier = modifier
                     .padding(8.dp),
@@ -81,11 +102,29 @@ fun MyListings(navController: NavController, sharedViewModel: SharedViewModel) {
                     modifier = modifier.fillMaxWidth().clickable { },
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Image(
-                        painter = painter,
-                        contentDescription = null,
-                        modifier = Modifier.height(200.dp).fillMaxWidth()
-                    )
+
+                    LazyRow {
+                        items(imagePaths) { imagePath ->
+                            Card(
+                                modifier = Modifier
+                                    .padding(8.dp)
+                                    .width(200.dp),
+
+                            ) {
+//                                val uri = Uri.parse(imagePath)
+                                val bitmap = remember { loadBitmapFromFilePath(imagePath)}
+                                bitmap?.let {
+                                    Image(
+                                        bitmap = it.asImageBitmap(),
+                                        contentDescription = "Image",
+                                        contentScale = ContentScale.Crop,
+                                        modifier = Modifier.height(250.dp)
+                                            .fillMaxWidth()
+                                    )
+                                }
+                            }
+                        }
+                    }
                     Spacer(modifier = Modifier.height(10.dp))
 
                     if (isEditing) {
@@ -125,6 +164,9 @@ fun MyListings(navController: NavController, sharedViewModel: SharedViewModel) {
                             }
                             IconButton(onClick = {
                                 //TODO DELETE OP
+                                coroutineScope.launch{
+                                    houseViewModel.deleteHouse(houseEntity)
+                                }
                                 Toast.makeText(context, "Deleting your Listing..", Toast.LENGTH_LONG).show()
 
                             }) {
@@ -171,7 +213,7 @@ fun MyListings(navController: NavController, sharedViewModel: SharedViewModel) {
         )
 
         ScrollableListWithImages(
-            houseEntities = image_list,
+            houseEntities = allHouses,
             navController = navController
         )
 
@@ -179,7 +221,30 @@ fun MyListings(navController: NavController, sharedViewModel: SharedViewModel) {
 
 
 }
-
+fun loadBitmapFromUri(context: Context, uri: Uri): Bitmap? {
+    return try{
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            // For Android P and above
+            val source = ImageDecoder.createSource(context.contentResolver, uri)
+            ImageDecoder.decodeBitmap(source)
+        } else {
+            // For older versions
+            @Suppress("DEPRECATION")
+            MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
+        }
+    } catch(e:Exception){
+        Log.e("MyApp", "Error loading image from URI: $uri", e)
+        null
+    }
+}
+fun loadBitmapFromFilePath(filePath: String): Bitmap? {
+    return try {
+        BitmapFactory.decodeFile(filePath)
+    } catch (e: Exception) {
+        e.printStackTrace()
+        null
+    }
+}
 
 //@Preview(showBackground = true)
 //@Composable

@@ -77,6 +77,7 @@ dependencies {
     kapt("androidx.room:room-compiler:2.6.1")
     androidTestImplementation("androidx.room:room-testing:2.6.1")
     implementation("androidx.compose.runtime:runtime-livedata:1.0.5")
+    implementation("io.coil-kt:coil-compose:1.3.2")
 
 
     // Room implementations

@@ -13,6 +13,7 @@ import com.example.house_rental_app.DatabaseApplication
 import com.example.house_rental_app.entity.UserEntity
 import com.example.house_rental_app.models.User
 import com.example.house_rental_app.repository.UserRepository
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class UserViewModel : ViewModel() {
@@ -20,6 +21,11 @@ class UserViewModel : ViewModel() {
     val currentUser: LiveData<Int> = _currentUser
     fun setUser(user: Int){
         _currentUser.value = user
+    }
+    private var _error = MutableLiveData<Boolean>()
+    var error:LiveData<Boolean> = _error
+    fun setError(error: Boolean){
+        _error.value = error
     }
     private val _userDetails = MutableLiveData<UserEntity?>()
     val userDetails: LiveData<UserEntity?> = _userDetails
@@ -62,15 +68,22 @@ class UserViewModel : ViewModel() {
 //        if (validateInput()) {
             // Logic to handle user login
         var user = 0
+        _error.value = false
         viewModelScope.launch {
             try{
                 user = userRepository.userLogin(email, password)
+
                 _currentUser.postValue(user) // Use postValue for thread-safety
                 _currentUser.value = user
+                delay(1500)
+
+                _error.value = false
                 Log.println(Log.INFO, "Yo", user.toString())
             } catch (e: Exception) {
                 Log.e("UserViewModel", "Error logging in", e)
                 _currentUser.postValue(null)
+                _error.value = true
+
             }
 
         }

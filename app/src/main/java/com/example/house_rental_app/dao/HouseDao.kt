@@ -25,4 +25,7 @@ interface HouseDao {
 
     @Query("SELECT * FROM house_table")
     fun viewAllHouses(): Flow<List<HouseEntity>>
+
+    @Query("SELECT * FROM house_table WHERE houseId = :houseId LIMIT 1")
+    suspend fun getHouseById(houseId: Int): HouseEntity
 }

@@ -18,6 +18,9 @@ class HouseViewModel() : ViewModel() {
     private val _allHouses = MutableLiveData<List<HouseEntity>>()
     val allHouses: LiveData<List<HouseEntity>> get() = _allHouses
 
+    private val _viewedHouse = MutableLiveData<HouseEntity>()
+    val viewedHouse: LiveData<HouseEntity> = _viewedHouse
+
     private val houseRepository : HouseRepository by lazy{
         DatabaseApplication.container.houseRepository
     }
@@ -55,6 +58,12 @@ class HouseViewModel() : ViewModel() {
     fun editHouse(house: HouseEntity) {
         viewModelScope.launch(Dispatchers.IO) {
             houseRepository.editHouse(house)
+        }
+    }
+    fun getHouseById(houseId: Int) {
+        viewModelScope.launch {
+            val house = houseRepository.getHouseById(houseId)
+            _viewedHouse.postValue(house)
         }
     }
 //    fun viewAllHouses(): Flow<List<HouseEntity>>{

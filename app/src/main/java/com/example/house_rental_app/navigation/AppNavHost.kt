@@ -102,17 +102,11 @@ fun AppNavHost(modifier: Modifier = Modifier, navController: NavHostController =
         }}
 
 
-        composable(ROUTE_DETAILED_PROPERTY+ "/{id}") {
-//            backStackEntry ->
-//            val propertyDetailsString = backStackEntry.arguments?.getString("propertyDetails")
-//            val propertyDetails = Gson().fromJson(propertyDetailsString, PropertyDetails::class.java)
-
-
-            val houseentity = HouseEntity( address = "111 Main St", price = 234, ownerId = 23, lease = "April 1st 2022", images =
-            R.drawable.img_1 .toString(), description = "A 2 bedroom" )
-
+        composable("$ROUTE_DETAILED_PROPERTY/{houseId}") { backStackEntry ->
+            val houseId = backStackEntry.arguments?.getString("houseId")?.toIntOrNull() ?: return@composable
             Box(modifier = Modifier.padding(paddingValues)) {
-                DetailedProperty(navController, houseentity)
+                // Now you can use houseId to fetch and display the house details
+                DetailedProperty(navController = navController, houseId = houseId)
             }
         }
 
@@ -121,11 +115,18 @@ fun AppNavHost(modifier: Modifier = Modifier, navController: NavHostController =
                 AddProperty(navController, sharedViewModel)
             }
         }
-        composable(ROUTE_CONTACT_LANDLORD){
-            val propertyDetails =  HouseEntity( address = "111 Main St", price = 234, ownerId = 23, lease = "April 1st 2022", images =
-            R.drawable.img_2.toString(), description = "A 2 bedroom" )
-            Box(modifier = Modifier.padding(paddingValues)) {
-                ContactLandlord(navController = navController, houseEntity = propertyDetails)
+        composable("$ROUTE_CONTACT_LANDLORD/{ownerId}") { backStackEntry ->
+            // Extracting the ownerId from the arguments
+            val ownerId = backStackEntry.arguments?.getString("ownerId")?.toIntOrNull()
+            ownerId?.let {
+                // If ownerId is successfully extracted and converted to Int, navigate to ContactLandlord
+                Box(modifier = Modifier.padding(paddingValues)) {
+                    ContactLandlord(navController = navController, ownerId = it)
+                }
+
+            } ?: run {
+                // Handle error or invalid ownerId
+                // This could navigate back or show an error message
             }
         }
     }

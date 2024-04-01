@@ -186,14 +186,6 @@ fun AddProperty(navController: NavController, sharedViewModel: SharedViewModel) 
                     .fillMaxWidth()
                     .size(200.dp)
             )
-            OutlinedTextField(
-                value = imageId,
-                onValueChange = { imageId = it },
-                label = { Text("Image ID (numeric)") },
-                modifier = Modifier
-                    .padding(bottom = 8.dp)
-                    .fillMaxWidth()
-            )
             Button(onClick = {
                     /* TODO: Add code for upload images*/
 

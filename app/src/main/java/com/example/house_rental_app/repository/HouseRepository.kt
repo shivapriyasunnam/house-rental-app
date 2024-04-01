@@ -40,6 +40,8 @@ interface HouseRepository {
             houseDao.viewAllHouses()
         }
     }
+    suspend fun getHouseById(houseId: Int): HouseEntity
+
 
     // You can define other functions for house-related operations here
 }

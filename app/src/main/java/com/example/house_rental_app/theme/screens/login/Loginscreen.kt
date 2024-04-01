@@ -56,6 +56,8 @@ import com.example.house_rental_app.data.UserViewModel
 import kotlinx.coroutines.launch
 
 import com.example.house_rental_app.navigation.ROUTE_ALL_LISTINGS
+import com.example.house_rental_app.theme.screens.ErrorPopup
+import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -66,9 +68,11 @@ fun Loginscreen(navController: NavHostController, sharedViewModel: SharedViewMod
     val coroutineScope = rememberCoroutineScope()
     val userViewModel: UserViewModel = viewModel(factory = AppViewModelProvider.Factory)
     val user by userViewModel.currentUser.observeAsState()
-
+    val loginError by userViewModel.error.observeAsState()
+    var showErrorDialog by remember { mutableStateOf(false) }
+    var loginAttempted by remember { mutableStateOf(false) }
 //    val currentUserId by rememberUpdatedState(sharedViewModel.userId.value)
-
+    var error by remember { mutableStateOf(false) }
     var id by remember { mutableStateOf(0) }
     Box(
         modifier = Modifier.fillMaxSize()
@@ -147,6 +151,7 @@ fun Loginscreen(navController: NavHostController, sharedViewModel: SharedViewMod
                 onClick = {
                     coroutineScope.launch {
                         userViewModel.loginUser(email.text.trim(), pass.text.trim())
+                        error = true
                     }
                 },
                 colors = ButtonDefaults.buttonColors(Color.Black),
@@ -174,16 +179,38 @@ fun Loginscreen(navController: NavHostController, sharedViewModel: SharedViewMod
 
             }
         }
-
-
-    }
-    LaunchedEffect(user){
-        user?.let {
-            Log.println(Log.INFO, "Navigation", "Navigating to ROUTE_ALL_LISTINGS with User ID: $it")
-            sharedViewModel.setUserId(it.toString())
-            navController.navigate(ROUTE_ALL_LISTINGS) // Adjust based on your user ID type
+        if (error && loginError == true) {
+            showErrorDialog = true
         }
+        if(showErrorDialog){
+            ErrorPopup(
+                message = "Login Failed",
+                description = "Invalid email or password. Please login again!",
+                onDismiss = { showErrorDialog = false
+                error = false
+                }
+            )
+        }
+
+
     }
+        LaunchedEffect(user) {
+
+                user?.let {
+                    Log.println(
+                        Log.INFO,
+                        "Navigation",
+                        "Navigating to ROUTE_ALL_LISTINGS with User ID: $it"
+                    )
+                    sharedViewModel.setUserId(it.toString())
+                    navController.navigate(ROUTE_ALL_LISTINGS) // Adjust based on your user ID type
+
+                }
+
+            }
+            loginAttempted = false // Reset login attempted state
+
+
 }
 
 //@Preview

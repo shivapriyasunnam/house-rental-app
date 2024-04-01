@@ -24,16 +24,13 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-<<<<<<< HEAD
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-=======
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
->>>>>>> 281f6c7 (User and Houses CRUD in Progress)
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
@@ -46,24 +43,18 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.house_rental_app.R
-<<<<<<< HEAD
 import com.example.house_rental_app.entity.HouseEntity
-=======
 import com.example.house_rental_app.data.HouseViewModel
 import com.example.house_rental_app.data.PropertyDetails
 import com.example.house_rental_app.navigation.ROUTE_ALL_LISTINGS
 import com.example.house_rental_app.navigation.ROUTE_DETAILED_PROPERTY
 import com.example.house_rental_app.navigation.ROUTE_MY_LISTINGS
->>>>>>> 281f6c7 (User and Houses CRUD in Progress)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyListings(navController: NavController) {
     val context = LocalContext.current
 
-<<<<<<< HEAD
-    //Each Property Card
-=======
     val houseViewModel: HouseViewModel = viewModel()
 
     LaunchedEffect(key1 = 10) {
@@ -71,7 +62,8 @@ fun MyListings(navController: NavController) {
     }
     val allHouses by houseViewModel.allHouses.observeAsState(initial = emptyList())
     Log.println(Log.INFO, "", allHouses.toString())
->>>>>>> 281f6c7 (User and Houses CRUD in Progress)
+
+    //Each Property Card
     Column {
         Spacer(modifier = Modifier.height(1.dp))
 

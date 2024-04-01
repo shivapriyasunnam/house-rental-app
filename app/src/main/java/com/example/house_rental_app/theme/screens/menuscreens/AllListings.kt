@@ -1,5 +1,6 @@
 package com.example.house_rental_app.theme.screens.menuscreens
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -34,22 +35,15 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.house_rental_app.R
-<<<<<<< HEAD
-import com.example.house_rental_app.entity.HouseEntity
-=======
 import com.example.house_rental_app.data.HouseViewModel
->>>>>>> 281f6c7 (User and Houses CRUD in Progress)
 import com.example.house_rental_app.data.PropertyDetails
 import com.example.house_rental_app.data.UserViewModel
 import com.example.house_rental_app.entity.HouseEntity
 import com.example.house_rental_app.entity.UserEntity
 import com.example.house_rental_app.navigation.ROUTE_ALL_LISTINGS
 import com.example.house_rental_app.navigation.ROUTE_DETAILED_PROPERTY
-<<<<<<< HEAD
-=======
 import com.example.house_rental_app.navigation.ROUTE_LOGIN
 import java.util.concurrent.Flow
->>>>>>> 281f6c7 (User and Houses CRUD in Progress)
 
 @Composable
 fun AllListings(navController: NavController) {

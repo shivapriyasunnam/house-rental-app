@@ -27,19 +27,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.house_rental_app.models.User
-
+import com.example.house_rental_app.entity.UserEntity
 
 
 @Composable
-fun UserProfile(user: User, onUserUpdated: (User) -> Unit, navController: NavController) {
+fun UserProfile(user: UserEntity, onUserUpdated: (UserEntity) -> Unit, navController: NavController) {
     var editing by remember { mutableStateOf(false) }
     var editedUser by remember { mutableStateOf(user) }
 
     Column() {
-        val currentRoute = getCurrentRoute(navController) ?: ""
-        Log.println(Log.INFO, "current route", currentRoute)
-        MenuBar(navController = navController, currentRoute = currentRoute)
+
+
+//        val currentRoute = getCurrentRoute(navController) ?: ""
+//        Log.println(Log.INFO, "current route", currentRoute)
+//        MenuBar(navController = navController, currentRoute = currentRoute)
 
         // Spacer to add some space between menu bar and list
         Spacer(modifier = Modifier.height(30.dp))
@@ -54,17 +55,17 @@ fun UserProfile(user: User, onUserUpdated: (User) -> Unit, navController: NavCon
             Text(text = "User Profile", style = MaterialTheme.typography.bodyLarge)
             Spacer(modifier = Modifier.height(16.dp))
 
-            UserDetail("Email", if (editing) editedUser.email else user.email) { newValue ->
-                editedUser.email = newValue
+            UserDetail("Email", if (editing) editedUser.emailId else user.emailId) { newValue ->
+                editedUser.emailId = newValue
             }
 
-            UserDetail("Password", if (editing) editedUser.pass else "*****") { newValue ->
-                editedUser.pass = newValue
+            UserDetail("Password", if (editing) editedUser.password else "*****") { newValue ->
+                editedUser.password = newValue
             }
 
-            UserDetail("UserID", if (editing) editedUser.userid else user.userid) { newValue ->
-                editedUser.userid = newValue
-            }
+//            UserDetail("UserID", if (editing) editedUser.id else user.id) { newValue ->
+//                editedUser.id = newValue.toInt()
+//            }
 
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -145,7 +146,6 @@ private fun UserDetail(label: String, value: String, onValueChange: (String) -> 
 @Composable
 fun UserProfilePreview() {
     val navController = rememberNavController()
-    val user = User("example@example.com", "password123", "12345")
-
+    val user = UserEntity(emailId = "example@example.com", password =  "password123", id = 12, username = "Jane Doe", phoneNumber = "23", showOnlyEmail = true, showOnlyPhone = false )
     UserProfile(user = user, onUserUpdated = { /* Handle user update logic here */ }, navController = navController)
 }

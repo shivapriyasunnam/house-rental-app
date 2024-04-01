@@ -29,7 +29,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.house_rental_app.R
-import com.example.house_rental_app.data.PropertyDetails
 import com.example.house_rental_app.navigation.ROUTE_ADD_PROPERTY
 import com.example.house_rental_app.navigation.ROUTE_ALL_LISTINGS
 import com.example.house_rental_app.navigation.ROUTE_HOME

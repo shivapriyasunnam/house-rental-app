@@ -7,11 +7,11 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "user_table")
 data class UserEntity (
 
-    @PrimaryKey(autoGenerate = true) val id: Int,
+    @PrimaryKey(autoGenerate = true) var id: Int,
     @ColumnInfo(name = "username") val username: String,
-    @ColumnInfo(name = "password") val password: String,
+    @ColumnInfo(name = "password") var password: String,
 //    @ColumnInfo(name = "houses") val housesList: List<HouseEntity>,
-    @ColumnInfo(name = "emailid") val emailId: String,
+    @ColumnInfo(name = "emailid") var emailId: String,
     @ColumnInfo(name = "phoneNumber") val phoneNumber: String,
     @ColumnInfo(name = "showOnlyEmail") val showOnlyEmail: Boolean,
     @ColumnInfo(name= "showOnlyPhone") val showOnlyPhone: Boolean,

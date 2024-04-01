@@ -5,18 +5,18 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.house_rental_app.R
 import androidx.navigation.compose.rememberNavController
-import com.example.house_rental_app.data.PropertyDetails
+import com.example.house_rental_app.entity.HouseEntity
+import com.example.house_rental_app.navigation.ROUTE_CONTACT_LANDLORD
 
 @Composable
-fun DetailedProperty(navController: NavController, propertyDetails: PropertyDetails) {
+fun DetailedProperty(navController: NavController, houseEntity: HouseEntity) {
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -25,7 +25,7 @@ fun DetailedProperty(navController: NavController, propertyDetails: PropertyDeta
     ) {
         // Show property image
         Image(
-            painter = painterResource(id = propertyDetails.imageId),
+            painter = painterResource(id = houseEntity.images.toInt()),
             contentDescription = null,
             modifier = Modifier
                 .fillMaxWidth()
@@ -33,13 +33,13 @@ fun DetailedProperty(navController: NavController, propertyDetails: PropertyDeta
         )
 
         // Show property details
-        Text(text = "Address: ${propertyDetails.address}")
-        Text(text = "Lease Availability: ${propertyDetails.leaseAvailability}")
-        Text(text = "Bedrooms: ${propertyDetails.bedrooms}")
-        Text(text = "Bathrooms: ${propertyDetails.bathrooms}")
+        Text(text = "Address: ${houseEntity.address}")
+        Text(text = "Lease Availability: ${houseEntity.lease}")
+        Text(text = "Price: ${houseEntity.price}")
+        Text(text = "Description: ${houseEntity.description}")
 
         // Button to contact landlord
-        Button(onClick = { /* Handle contact landlord button click */ }) {
+        Button(onClick = { navController.navigate(ROUTE_CONTACT_LANDLORD) }) {
             Text("Contact Landlord")
         }
     }
@@ -49,5 +49,5 @@ fun DetailedProperty(navController: NavController, propertyDetails: PropertyDeta
 @Composable
 fun DetailedPropertyPreview() {
     val navController = rememberNavController()
-    DetailedProperty(navController = navController, PropertyDetails(address = "456 Elm St", leaseAvailability = "May 1, 2024", imageId = R.drawable.img_1,  bedrooms = 2, bathrooms = 2))
+    DetailedProperty(navController = navController,  HouseEntity( address = "111 Main St", price = 234, ownerId = 23, lease = "April 1st 2022", images = "img_2", description = "A 2 bedroom" ))
 }

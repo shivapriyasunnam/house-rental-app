@@ -40,6 +40,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -104,7 +105,7 @@ fun RegisterScreen(navController: NavHostController){
             Text(
                 text = "Register Here!",
                 color = Color.Black,
-                fontFamily = FontFamily.Default,
+                fontFamily = FontFamily.Monospace,
                 fontSize = 30.sp,
                 modifier = Modifier.padding(20.dp)
             )
@@ -135,6 +136,7 @@ fun RegisterScreen(navController: NavHostController){
 
             OutlinedTextField(value = pass, onValueChange = { pass = it },
                 label = { Text(text = "Enter password") },
+                visualTransformation = PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -153,6 +155,7 @@ fun RegisterScreen(navController: NavHostController){
 //            Spacer(modifier = Modifier.height(20.dp))
             OutlinedTextField(value = confirmpass, onValueChange = { confirmpass = it },
                 label = { Text(text = "Confirm password") },
+                visualTransformation = PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -176,7 +179,8 @@ fun RegisterScreen(navController: NavHostController){
             ) {
                 Text(
                     text = "You are a ",
-                    modifier = Modifier.padding(all = 10.dp)
+                    modifier = Modifier.padding(all = 10.dp),
+                    fontFamily = FontFamily.Monospace
                 )
 
                 Checkbox(
@@ -185,7 +189,8 @@ fun RegisterScreen(navController: NavHostController){
                 )
                 Text(
                     text = "Home Renter",
-                    modifier = Modifier.clickable { isHomeRenter = !isHomeRenter }
+                    modifier = Modifier.clickable { isHomeRenter = !isHomeRenter },
+                    fontFamily = FontFamily.Monospace
                 )
 
                 Checkbox(
@@ -194,7 +199,8 @@ fun RegisterScreen(navController: NavHostController){
                 )
                 Text(
                     text = "Home Owner ",
-                    modifier = Modifier.clickable { isHomeOwner = !isHomeOwner }
+                    modifier = Modifier.clickable { isHomeOwner = !isHomeOwner },
+                    fontFamily = FontFamily.Monospace
                 )
             }
 
@@ -213,7 +219,8 @@ fun RegisterScreen(navController: NavHostController){
                 colors = ButtonDefaults.buttonColors(Color.Black),
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 50.dp)
             ) {
-                Text(text = "Register")
+                Text(text = "Register",
+                    fontFamily = FontFamily.Monospace)
 
             }
             Spacer(modifier = Modifier.height(20.dp))
@@ -223,7 +230,8 @@ fun RegisterScreen(navController: NavHostController){
                 },
                 colors = ButtonDefaults.buttonColors(Color.Black)
             ) {
-                Text(text = "Already have an Account? Click to Login")
+                Text(text = "Already have an Account? Click to Login",
+                    fontFamily = FontFamily.Monospace)
 
             }
         }

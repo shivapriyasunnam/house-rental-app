@@ -50,6 +50,8 @@ import com.example.house_rental_app.navigation.ROUTE_REGISTER
 import com.example.house_rental_app.R
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import com.example.house_rental_app.data.AppViewModelProvider
 import com.example.house_rental_app.data.SharedViewModel
 import com.example.house_rental_app.data.UserViewModel
@@ -105,7 +107,7 @@ fun Loginscreen(navController: NavHostController, sharedViewModel: SharedViewMod
             Text(
                 text = "Welcome!",
                 color = Color.Black,
-                fontFamily = FontFamily.Default,
+                fontFamily = FontFamily.Monospace,
                 fontSize = 30.sp,
                 modifier = Modifier.padding(10.dp)
             )
@@ -132,6 +134,7 @@ fun Loginscreen(navController: NavHostController, sharedViewModel: SharedViewMod
 //        Spacer(modifier = Modifier.height(20.dp))
             OutlinedTextField(value = pass, onValueChange = { pass = it },
                 label = { Text(text = "Enter password") },
+                visualTransformation = PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -159,11 +162,13 @@ fun Loginscreen(navController: NavHostController, sharedViewModel: SharedViewMod
                     .fillMaxWidth()
                     .padding(horizontal = 50.dp)
             ) {
-                Text(text = "Log In")
+                Text(text = "Log In",
+                    fontFamily = FontFamily.Monospace,
+                    fontWeight = FontWeight.Bold)
 
             }
 
-//        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(20.dp))
 
             Button(
                 onClick = {
@@ -174,7 +179,8 @@ fun Loginscreen(navController: NavHostController, sharedViewModel: SharedViewMod
                     .fillMaxWidth()
                     .padding(horizontal = 37.dp)
             ) {
-                Text(text = "Don't have an account? Click to Register", fontSize = 15.sp)
+                Text(text = "Click here to Register", fontSize = 15.sp,
+                    fontFamily = FontFamily.Monospace,fontWeight = FontWeight.Bold)
 
 
             }

@@ -52,6 +52,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -101,7 +102,8 @@ fun MyListings(navController: NavController, sharedViewModel: SharedViewModel) {
                     text = "My Listings",
                     style = MaterialTheme.typography.titleLarge,
                     textAlign = TextAlign.Center,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    fontFamily = FontFamily.Monospace
                 )
                 ScrollableListWithImages(
                     houseEntities = allHouses,
@@ -117,7 +119,8 @@ fun MyListings(navController: NavController, sharedViewModel: SharedViewModel) {
                 ) {
                     Text(
                         text = "No rentals posted yet!",
-                        fontSize = 24.sp
+                        fontSize = 24.sp,
+                        fontFamily = FontFamily.Monospace
                         // Additional Text styling here
                     )
                 }
@@ -213,24 +216,25 @@ fun ImageListItem(
                     )
                     isEditing = false
                 }) {
-                    Text("Save")
+                    Text("Save",
+                        fontFamily = FontFamily.Monospace)
                 }
             } else {
                 // Display text with an edit button
                 Text(
                     toAnnotatedText("Address:  ", address),
                     textAlign = TextAlign.Start,
-                    style = MaterialTheme.typography.bodyLarge,
+                    style = MaterialTheme.typography.bodyLarge
                 )
                 Text(
                     toAnnotatedText("Lease Available From:  ", leaseAvailability),
                     textAlign = TextAlign.Start,
-                    style = MaterialTheme.typography.bodyLarge,
+                    style = MaterialTheme.typography.bodyLarge
                 )
                 Text(
                     toAnnotatedText("Price:  ", price),
                     textAlign = TextAlign.Start,
-                    style = MaterialTheme.typography.bodyLarge,
+                    style = MaterialTheme.typography.bodyLarge
                 )
                 Row() {
                     IconButton(onClick = { isEditing = true }) {

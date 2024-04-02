@@ -17,7 +17,6 @@ import com.example.house_rental_app.entity.UserEntity
 
 import com.example.house_rental_app.data.SharedViewModel
 import com.example.house_rental_app.theme.screens.Register.RegisterScreen
-import com.example.house_rental_app.theme.screens.contactus.ContactUs
 import com.example.house_rental_app.theme.screens.home.HomeScreen
 import com.example.house_rental_app.theme.screens.login.Loginscreen
 import com.example.house_rental_app.theme.screens.menuscreens.AddProperty
@@ -52,9 +51,6 @@ fun AppNavHost(modifier: Modifier = Modifier, navController: NavHostController =
         }
 
 
-        composable(ROUTE_CONTACTUS) {
-            ContactUs(navController)
-        }
 
         composable(ROUTE_ALL_LISTINGS) {
             // Extracting the argument

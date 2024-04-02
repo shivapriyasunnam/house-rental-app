@@ -5,11 +5,13 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.res.painterResource
@@ -22,6 +24,7 @@ import com.example.house_rental_app.data.HouseViewModel
 import com.example.house_rental_app.entity.HouseEntity
 import com.example.house_rental_app.navigation.ROUTE_CONTACT_LANDLORD
 import com.example.house_rental_app.theme.screens.menuscreens.loadBitmapFromFilePath
+import com.example.house_rental_app.theme.screens.menuscreens.toAnnotatedText
 
 @Composable
 fun DetailedProperty(navController: NavController, houseId: Int) {
@@ -37,7 +40,8 @@ fun DetailedProperty(navController: NavController, houseId: Int) {
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         LazyRow{
         // Show property image
@@ -58,10 +62,10 @@ fun DetailedProperty(navController: NavController, houseId: Int) {
         }}
 
         // Show property details
-        Text(text = "Address: ${houseEntity?.address}")
-        Text(text = "Lease Availability: ${houseEntity?.lease}")
-        Text(text = "Price: ${houseEntity?.price}")
-        Text(text = "Description: ${houseEntity?.description}")
+        Text(toAnnotatedText(text = "Address:  ", houseEntity?.address ?: ""), style = MaterialTheme.typography.labelLarge,)
+        Text(toAnnotatedText(text = "Lease Availability: ", houseEntity?.lease?:""), style = MaterialTheme.typography.labelLarge,)
+        Text(toAnnotatedText(text = "Price: ", houseEntity?.price.toString() ?: "0"), style = MaterialTheme.typography.labelLarge,)
+        Text(toAnnotatedText(text = "Description:  ", houseEntity?.description ?: ""), style = MaterialTheme.typography.labelLarge,)
 
         // Button to contact landlord
         Button(onClick = {

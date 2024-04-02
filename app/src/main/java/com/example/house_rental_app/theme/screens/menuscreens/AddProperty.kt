@@ -35,6 +35,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -142,7 +144,9 @@ fun AddProperty(navController: NavController, sharedViewModel: SharedViewModel) 
             fontSize = 20.sp,
             modifier = Modifier
                 .fillMaxWidth()
-                .wrapContentSize(Alignment.Center)
+                .wrapContentSize(Alignment.Center),
+            fontFamily = FontFamily.Monospace,
+            fontWeight = FontWeight.Bold
 
         )
 
@@ -196,10 +200,12 @@ fun AddProperty(navController: NavController, sharedViewModel: SharedViewModel) 
                 }
                 pickImagesLauncher.launch(pickImageIntent)
             }) {
-                Text(text = "Upload Image")
+                Text(text = "Upload Image",
+                    fontFamily = FontFamily.Monospace)
             }
             if(imageCount > 0){
-                Text(text = "$imageCount images uploaded!")
+                Text(text = "$imageCount images uploaded!",
+                    fontFamily = FontFamily.Monospace)
             }
 
 
@@ -224,7 +230,8 @@ fun AddProperty(navController: NavController, sharedViewModel: SharedViewModel) 
                     .fillMaxWidth()
                     .padding(horizontal = 50.dp)
             ) {
-                Text("Submit")
+                Text("Submit",
+                    fontFamily = FontFamily.Monospace)
             }
         }
     }

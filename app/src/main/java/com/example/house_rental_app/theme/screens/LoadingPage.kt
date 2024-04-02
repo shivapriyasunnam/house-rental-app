@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
@@ -26,7 +27,8 @@ fun LoadingPage(message: String = "Loading...") {
                 color = MaterialTheme.colorScheme.primary
             )
             Spacer(modifier = Modifier.height(20.dp))
-            Text(text = message, style = MaterialTheme.typography.bodyLarge)
+            Text(text = message, style = MaterialTheme.typography.bodyLarge,
+                fontFamily = FontFamily.Monospace)
         }
     }
 }

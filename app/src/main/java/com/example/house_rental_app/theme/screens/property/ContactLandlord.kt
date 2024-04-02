@@ -16,6 +16,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -42,7 +43,8 @@ fun ContactLandlord(navController: NavController, ownerId: Int) {
             .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Contact Landlord", style = MaterialTheme.typography.headlineMedium)
+        Text(text = "Contact Landlord", style = MaterialTheme.typography.headlineMedium,
+            fontFamily = FontFamily.Monospace)
         Spacer(modifier = Modifier.height(25.dp))
 
 
@@ -59,7 +61,8 @@ fun ContactLandlord(navController: NavController, ownerId: Int) {
             Icon(Icons.Default.Email, "Email", Modifier.size(30.dp))
             Spacer(Modifier.width(8.dp))
             if (email != null) {
-                Text(email, style = MaterialTheme.typography.bodyLarge)
+                Text(email, style = MaterialTheme.typography.bodyLarge,
+                    fontFamily = FontFamily.Monospace)
             }
         }
 
@@ -78,7 +81,8 @@ fun ContactLandlord(navController: NavController, ownerId: Int) {
             Icon(Icons.Default.Phone, contentDescription = "Phone", modifier = Modifier.size(30.dp))
             Spacer(modifier = Modifier.width(8.dp))
             if (phoneNumber != null) {
-                Text(phoneNumber, style = MaterialTheme.typography.bodyLarge)
+                Text(phoneNumber, style = MaterialTheme.typography.bodyLarge,
+                    fontFamily = FontFamily.Monospace)
             }
         }
 

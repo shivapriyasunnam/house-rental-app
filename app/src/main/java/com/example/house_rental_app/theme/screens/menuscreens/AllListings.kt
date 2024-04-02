@@ -38,6 +38,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
@@ -84,7 +85,8 @@ fun AllListings(navController: NavController, sharedViewModel: SharedViewModel) 
                 ) {
                     Text(
                         text = "No rentals available right now",
-                        fontSize = 24.sp
+                        fontSize = 24.sp,
+                        fontFamily = FontFamily.Monospace
                         // Additional Text styling here
                     )
                 }
@@ -97,7 +99,8 @@ fun AllListings(navController: NavController, sharedViewModel: SharedViewModel) 
                     text = "All Listings",
                     style = MaterialTheme.typography.titleLarge,
                     textAlign = TextAlign.Center,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                            fontFamily = FontFamily.Monospace
                 )
                 ScrollableListWithImagesAll(
                     houseEntities = allHouses,

@@ -29,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -80,6 +81,7 @@ fun UserProfile(navController: NavController, sharedViewModel: SharedViewModel) 
                             text = "My Profile", style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.Bold,
                             fontSize = 25.sp,
+                            fontFamily = FontFamily.Monospace,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .background(Color.White),
@@ -140,8 +142,9 @@ fun UserProfile(navController: NavController, sharedViewModel: SharedViewModel) 
                             )
                         }
 
-                        Spacer(modifier = Modifier.height(20.dp))
+
                     }
+                    Spacer(modifier = Modifier.height(20.dp))
                 }
             }
         }
@@ -165,7 +168,8 @@ private fun UserDetail(
 
 
             Text(
-                text = "$label ", style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Bold
+                text = "$label ", style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Bold,
+                fontFamily = FontFamily.Monospace
             )
             if (isEditable) {
                 Column {
